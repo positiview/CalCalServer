@@ -1,7 +1,9 @@
 package com.example.controller;
 
 import com.example.model.CoordinateDTO;
+import com.example.service.CourseService;
 import lombok.AllArgsConstructor;
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +20,13 @@ import java.util.List;
 @Log4j2
 public class CourseController {
 
+    private CourseService courseService;
+
     @PostMapping("/save")
-    public ResponseEntity<String> saveCourse(@RequestBody String courseName, @RequestBody List<CoordinateDTO> courseList){
+    public ResponseEntity<String> saveCourse(@RequestBody String courseName, @RequestBody List<CoordinateDTO> list){
+
+        courseService.saveCourseList(courseName,list);
+        log.info("course Save !! "+courseName+" <-- 이름 // 리스트 -->" + list);
 
         return new ResponseEntity<>("Success", HttpStatus.OK);
     }
