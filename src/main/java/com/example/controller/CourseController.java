@@ -26,6 +26,7 @@ public class CourseController {
         log.info("course Save !! "+courseName+" <-- 이름 // 리스트 -->" + list);
 
         return new ResponseEntity<>("Success", HttpStatus.OK);
+        
     }
 
 
