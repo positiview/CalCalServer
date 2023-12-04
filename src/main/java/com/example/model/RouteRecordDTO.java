@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class RouteRecordDTO {
 
-    private LatLng latLng;
+    private LatLngDTO latLngDTO;
 
     private Long recordTime;
 }

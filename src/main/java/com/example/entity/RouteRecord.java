@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table
 @AllArgsConstructor
@@ -17,7 +19,9 @@ public class RouteRecord {
     @Id
     private String email;
 
-    private String
+
+    @OneToMany(mappedBy = "RouteRecord", cascade = CascadeType.ALL)
+    private List<LatLng> recordList;
 
 
 }
