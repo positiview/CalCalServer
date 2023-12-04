@@ -1,6 +1,7 @@
 package com.example.model;
 
-import lombok.Data;
+import jakarta.persistence.Table;
+import lombok.*;
 
 @Data
 public class CoordinateDTO {
