@@ -12,4 +12,11 @@ public class MemberDTO {
 
     private String password2;
 
+    private Integer weight;
+
+    private Integer length;
+
+    private Integer age;
+
+    private String gender;
 }

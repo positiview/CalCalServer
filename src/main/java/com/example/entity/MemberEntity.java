@@ -21,4 +21,8 @@ public class MemberEntity {
     private String phone;
     private String password;
     private String password2;
+    private Integer weight;
+    private Integer length;
+    private Integer age;
+    private String gender;
 }

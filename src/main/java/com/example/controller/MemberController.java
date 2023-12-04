@@ -43,4 +43,17 @@ public class MemberController {
             return new ResponseEntity<>("Failure", HttpStatus.UNAUTHORIZED);
         }
     }
+
+    @PutMapping("/updateMemberData")
+    public ResponseEntity<String> set(@RequestBody MemberDTO memberDTO) {
+
+        boolean updateSuccessful = memberService.updateMemberData(memberDTO);
+
+
+        if (updateSuccessful) {
+            return new ResponseEntity<>("Success", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Failure", HttpStatus.BAD_REQUEST);
+        }
+    }
 }
