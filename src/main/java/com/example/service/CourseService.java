@@ -24,11 +24,15 @@ public class CourseService {
             Coordinate coords = new Coordinate();
 
             coords.setLongitude(cDTO.getLongitude());
-            coords.setLatitude(cDTO.getLatitude());
+            coords.setLatitude(cDTO.getLatidute());
             clEntity.getDtoList().add(coords);
         }
 
-        repository.save(clEntity);
+        clEntity.setCoordinateCount(list.size()); // coordinateCount를 설정
 
+        repository.save(clEntity);
+    }
+    public List<CourseList> getAllCourseLists(){
+        return repository.findAll();
     }
 }

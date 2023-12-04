@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.entity.CourseList;
 import com.example.model.CoordinateDTO;
 import com.example.service.CourseService;
 import lombok.AllArgsConstructor;
@@ -29,5 +30,9 @@ public class CourseController {
         
     }
 
-
+    @GetMapping("/getList")
+    public ResponseEntity<List<CourseList>> getAllCourseLists(){
+        List<CourseList> courseLists = courseService.getAllCourseLists();
+        return new ResponseEntity<>(courseLists, HttpStatus.OK);
+    }
 }

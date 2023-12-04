@@ -27,6 +27,8 @@ public class CourseList {
     @OneToMany(mappedBy = "courseList", cascade = CascadeType.ALL)
     private List<Coordinate> dtoList = new ArrayList<>();
 
+    private int coordinateCount; // 새로 추가된 필드
+
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime regTime;
