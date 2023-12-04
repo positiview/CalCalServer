@@ -21,9 +21,30 @@ public class MemberService {
         memberEntity.setEmail(memberDTO.getEmail());
         memberEntity.setPhone(memberDTO.getPhone());
         memberEntity.setPassword(memberDTO.getPassword());
-        memberEntity.setPassword2(memberDTO.getPassword2());
+        memberEntity.setGender(memberDTO.getGender());
+        memberEntity.setLength(memberDTO.getLength());
+        memberEntity.setWeight(memberDTO.getWeight());
+        memberEntity.setAge(memberDTO.getAge());
+
 
         memberRepository.save(memberEntity);
+    }
+    public boolean updateMemberData(MemberDTO memberDTO) {
+        MemberEntity member = memberRepository.findByEmail(memberDTO.getEmail());
+
+        if (member != null) {
+            member.setPhone(memberDTO.getPhone());
+            member.setPassword(memberDTO.getPassword());
+            member.setGender(memberDTO.getGender());
+            member.setLength(memberDTO.getLength());
+            member.setWeight(memberDTO.getWeight());
+            member.setAge(memberDTO.getAge());
+            memberRepository.save(member);
+            return true;
+        } else {
+            // 회원 정보가 없는 경우
+            return false;
+        }
     }
 
     public List<MemberEntity> findAllMembers() {
