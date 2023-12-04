@@ -1,19 +1,27 @@
 package com.example.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-public class LatLng {
+@Getter
+@Setter
+public class RouteAndTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long llId;
+    private Long ratId;
 
     private Long latitude;
 
     private Long longitude;
 
+    private Long time;
+
     @ManyToOne
     @JoinColumn(name = "RouteRecord_email")
     private RouteRecord routeRecord;
+
+
 }

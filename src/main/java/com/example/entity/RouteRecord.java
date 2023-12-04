@@ -1,17 +1,17 @@
 package com.example.entity;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import com.example.model.RouteAndTimeDTO;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 public class RouteRecord {
@@ -21,7 +21,6 @@ public class RouteRecord {
 
 
     @OneToMany(mappedBy = "RouteRecord", cascade = CascadeType.ALL)
-    private List<LatLng> recordList;
-
+    private List<RouteAndTime> RouteRecordList = new ArrayList<>();
 
 }
