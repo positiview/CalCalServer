@@ -7,6 +7,6 @@ import lombok.*;
 public class CoordinateDTO {
 
     private double longitude;
-    private double latitude;
+    private double latidute;
 
 }

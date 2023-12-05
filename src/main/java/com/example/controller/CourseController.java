@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.entity.CourseList;
 import com.example.model.CoordinateDTO;
 import com.example.service.CourseService;
 import lombok.AllArgsConstructor;
@@ -20,14 +21,18 @@ public class CourseController {
     private CourseService courseService;
 
     @PostMapping("/save")
-    public ResponseEntity<String> saveCourse(@RequestParam("courseName") String courseName, @RequestBody List<CoordinateDTO> list){
+    public ResponseEntity<String> saveCourse(@RequestParam("courseName") String courseName, @RequestParam("email") String email,@RequestBody List<CoordinateDTO> list){
 
-        courseService.saveCourseList(courseName,list);
+        courseService.saveCourseList(courseName,email,list);
         log.info("course Save !! "+courseName+" <-- 이름 // 리스트 -->" + list);
 
         return new ResponseEntity<>("Success", HttpStatus.OK);
 
     }
 
-
+    @GetMapping("/getList")
+    public ResponseEntity<List<CourseList>> getAllCourseLists(){
+        List<CourseList> courseLists = courseService.getAllCourseLists();
+        return new ResponseEntity<>(courseLists, HttpStatus.OK);
+    }
 }

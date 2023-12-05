@@ -20,7 +20,7 @@ public class RouteRecord {
     private String email;
 
 
-    @OneToMany(mappedBy = "RouteRecord", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "routeRecord", cascade = CascadeType.ALL)
     private List<RouteAndTime> RouteRecordList = new ArrayList<>();
 
 }

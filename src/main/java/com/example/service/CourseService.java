@@ -16,19 +16,29 @@ public class CourseService {
 
     private CourseRepository repository;
 
-    public void saveCourseList(String courseName, List<CoordinateDTO> list){
+    public void saveCourseList(String courseName,String email, List<CoordinateDTO> list){
         CourseList clEntity = new CourseList();
         clEntity.setCourseName(courseName);
+        clEntity.setEmail(email);
+
+        // 저장한 엔티티를 반환받아서 course_no 값을 얻음
+        CourseList savedEntity = repository.save(clEntity);
 
         for(CoordinateDTO cDTO : list) {
             Coordinate coords = new Coordinate();
 
             coords.setLongitude(cDTO.getLongitude());
-            coords.setLatitude(cDTO.getLatitude());
+            coords.setLatitude(cDTO.getLatidute());
+            coords.setCourseList(savedEntity);  // courseList를 설정
             clEntity.getDtoList().add(coords);
         }
 
+        clEntity.setCoordinateCount(list.size()); // coordinateCount를 설정
+
         repository.save(clEntity);
 
+    }
+    public List<CourseList> getAllCourseLists(){
+        return repository.findAll();
     }
 }
