@@ -21,9 +21,9 @@ public class CourseController {
     private CourseService courseService;
 
     @PostMapping("/save")
-    public ResponseEntity<String> saveCourse(@RequestParam("courseName") String courseName, @RequestBody List<CoordinateDTO> list){
+    public ResponseEntity<String> saveCourse(@RequestParam("courseName") String courseName, @RequestParam("email") String email,@RequestBody List<CoordinateDTO> list){
 
-        courseService.saveCourseList(courseName,list);
+        courseService.saveCourseList(courseName,email,list);
         log.info("course Save !! "+courseName+" <-- 이름 // 리스트 -->" + list);
 
         return new ResponseEntity<>("Success", HttpStatus.OK);
