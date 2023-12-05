@@ -56,4 +56,14 @@ public class MemberController {
             return new ResponseEntity<>("Failure", HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping("/getMemberData")
+    public ResponseEntity<MemberDTO> getMemberData(@RequestParam String email) {
+        MemberDTO memberDTO = memberService.getMemberData(email);
+
+        if (memberDTO != null) {
+            return new ResponseEntity<>(memberDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
 }
