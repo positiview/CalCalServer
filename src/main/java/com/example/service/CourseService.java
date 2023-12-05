@@ -3,10 +3,13 @@ package com.example.service;
 import com.example.entity.Coordinate;
 import com.example.entity.CourseList;
 import com.example.model.CoordinateDTO;
+import com.example.model.CourseListDTO;
 import com.example.repository.CourseRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,7 +33,7 @@ public class CourseService {
             coords.setLongitude(cDTO.getLongitude());
             coords.setLatitude(cDTO.getLatidute());
             coords.setCourseList(savedEntity);  // courseList를 설정
-            clEntity.getDtoList().add(coords);
+            clEntity.getPlaceList().add(coords);
         }
 
         clEntity.setCoordinateCount(list.size()); // coordinateCount를 설정
@@ -38,7 +41,23 @@ public class CourseService {
         repository.save(clEntity);
 
     }
-    public List<CourseList> getAllCourseLists(){
-        return repository.findAll();
+    @Transactional(readOnly = true)
+    public List<CourseListDTO> getAllCourseLists(String email){
+        List<CourseListDTO> getCourseLists = new ArrayList<>();
+        CourseListDTO clDTO = new CourseListDTO();
+        List<CourseList> myList = repository.findAllByEmailWithPlaces(email);
+        for(CourseList courseList : myList){
+            List<CoordinateDTO> placeList = new ArrayList<>();
+            for(Coordinate coords : courseList.getPlaceList()){
+                CoordinateDTO cDTO = new CoordinateDTO();
+                cDTO.setLongitude(coords.getLongitude());
+                cDTO.setLatidute(coords.getLatitude());
+                placeList.add(cDTO);
+            }
+            clDTO.setPlaceList(placeList);
+            clDTO.setCourseName(courseList.getCourseName());
+            getCourseLists.add(clDTO);
+        }
+        return getCourseLists;
     }
 }

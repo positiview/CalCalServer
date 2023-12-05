@@ -2,11 +2,13 @@ package com.example.controller;
 
 import com.example.entity.CourseList;
 import com.example.model.CoordinateDTO;
+import com.example.model.CourseListDTO;
 import com.example.service.CourseService;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,9 +32,10 @@ public class CourseController {
 
     }
 
-    @GetMapping("/getList")
-    public ResponseEntity<List<CourseList>> getAllCourseLists(){
-        List<CourseList> courseLists = courseService.getAllCourseLists();
+    @GetMapping(value = "/getList", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CourseListDTO>> getAllCourseLists(@RequestParam("email") String email){
+        List<CourseListDTO> courseLists = courseService.getAllCourseLists(email);
+        log.info("list 뭡니까? " + courseLists);
         return new ResponseEntity<>(courseLists, HttpStatus.OK);
     }
 }

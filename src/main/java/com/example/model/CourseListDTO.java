@@ -5,12 +5,12 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class CourstListDTO {
+public class CourseListDTO {
 
     private Long cid;
 
     private String courseName;
 
-    private List<CoordinateDTO> list;
+    private List<CoordinateDTO> placeList;
 
 }

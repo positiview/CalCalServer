@@ -19,15 +19,15 @@ public class CourseList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "course_no")
     private Long course_no;
+
 
     private String email;
 
     private String courseName;
 
     @OneToMany(mappedBy = "courseList", cascade = CascadeType.ALL)
-    private List<Coordinate> dtoList = new ArrayList<>();
+    private List<Coordinate> placeList = new ArrayList<>();
 
     private int coordinateCount; // 새로 추가된 필드
 
