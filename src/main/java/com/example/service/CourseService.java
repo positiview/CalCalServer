@@ -30,7 +30,7 @@ public class CourseService {
             coords.setLongitude(cDTO.getLongitude());
             coords.setLatitude(cDTO.getLatidute());
             coords.setCourseList(savedEntity);  // courseList를 설정
-            clEntity.getDtoList().add(coords);
+            clEntity.getPlaceList().add(coords);
         }
 
         clEntity.setCoordinateCount(list.size()); // coordinateCount를 설정

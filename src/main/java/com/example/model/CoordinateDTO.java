@@ -5,7 +5,7 @@ import lombok.*;
 
 @Data
 public class CoordinateDTO {
-
+    private Long course_no;
     private double longitude;
     private double latidute;
 

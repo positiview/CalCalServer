@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -26,8 +27,9 @@ public class CourseList {
 
     private String courseName;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "courseList", cascade = CascadeType.ALL)
-    private List<Coordinate> dtoList = new ArrayList<>();
+    private List<Coordinate> placeList = new ArrayList<>();
 
     private int coordinateCount; // 새로 추가된 필드
 
