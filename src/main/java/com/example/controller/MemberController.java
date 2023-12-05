@@ -32,6 +32,14 @@ public class MemberController {
         return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 
+    @GetMapping("/getMemberInfo")
+    public ResponseEntity<MemberDTO> getMemberInfo(@RequestParam String email){
+
+        MemberDTO memberDTO;
+        memberDTO = memberService.getMember(email);
+        return new ResponseEntity<>(memberDTO,HttpStatus.OK)
+    }
+
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody MemberDTO memberDTO) {
         // 로그인 로직 구현

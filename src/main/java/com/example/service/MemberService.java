@@ -62,4 +62,9 @@ public class MemberService {
             return false;
         }
     }
+
+    public MemberDTO getMember(String email) {
+        MemberEntity member =
+
+    }
 }
