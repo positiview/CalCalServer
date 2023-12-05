@@ -20,7 +20,7 @@ public class RouteAndTime {
     private Long time;
 
     @ManyToOne
-    @JoinColumn(name = "RouteRecord_email")
+    @JoinColumn(name = "routeRecord_email")
     private RouteRecord routeRecord;
 
 

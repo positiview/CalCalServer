@@ -32,6 +32,7 @@ public class MemberController {
         return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 
+
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody MemberDTO memberDTO) {
         // 로그인 로직 구현
@@ -54,6 +55,16 @@ public class MemberController {
             return new ResponseEntity<>("Success", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Failure", HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping("/getMemberData")
+    public ResponseEntity<MemberDTO> getMemberData(@RequestParam String email) {
+        MemberDTO memberDTO = memberService.getMemberData(email);
+
+        if (memberDTO != null) {
+            return new ResponseEntity<>(memberDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 }

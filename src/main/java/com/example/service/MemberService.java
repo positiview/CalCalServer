@@ -62,4 +62,24 @@ public class MemberService {
             return false;
         }
     }
+
+    public MemberDTO getMemberData(String email) {
+        MemberEntity member = memberRepository.findByEmail(email);
+
+        if (member != null) {
+            MemberDTO memberDTO = new MemberDTO();
+            memberDTO.setEmail(member.getEmail());
+            memberDTO.setPhone(member.getPhone());
+            memberDTO.setPassword(member.getPassword());
+            memberDTO.setGender(member.getGender());
+            memberDTO.setLength(member.getLength());
+            memberDTO.setWeight(member.getWeight());
+            memberDTO.setAge(member.getAge());
+
+            return memberDTO;
+        } else {
+            // 회원 정보가 없는 경우
+            return null;
+        }
+    }
 }

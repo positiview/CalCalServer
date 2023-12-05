@@ -20,8 +20,8 @@ public class CourseList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "course_no")
     private Long course_no;
+
 
     private String email;
 
