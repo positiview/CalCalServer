@@ -6,6 +6,7 @@ import com.example.model.CoordinateDTO;
 import com.example.model.CourseListDTO;
 import com.example.repository.CourseRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Log4j2
 public class CourseService {
 
     private CourseRepository repository;
@@ -36,7 +38,7 @@ public class CourseService {
             clEntity.getPlaceList().add(coords);
         }
 
-        clEntity.setCoordinateCount(list.size()); // coordinateCount를 설정
+//        clEntity.setCoordinateCount(list.size()); // coordinateCount를 설정
 
         repository.save(clEntity);
 
@@ -45,19 +47,23 @@ public class CourseService {
     public List<CourseListDTO> getAllCourseLists(String email){
         List<CourseListDTO> getCourseLists = new ArrayList<>();
         CourseListDTO clDTO = new CourseListDTO();
-        List<CourseList> myList = repository.findAllByEmailWithPlaces(email);
-        for(CourseList courseList : myList){
-            List<CoordinateDTO> placeList = new ArrayList<>();
-            for(Coordinate coords : courseList.getPlaceList()){
-                CoordinateDTO cDTO = new CoordinateDTO();
-                cDTO.setLongitude(coords.getLongitude());
-                cDTO.setLatidute(coords.getLatitude());
-                placeList.add(cDTO);
-            }
-            clDTO.setPlaceList(placeList);
-            clDTO.setCourseName(courseList.getCourseName());
-            getCourseLists.add(clDTO);
+        CourseList list = repository.findCourseListByEmail(email);
+
+
+
+        List<CoordinateDTO> placeList = new ArrayList<>();
+
+        for(Coordinate coords : list.getPlaceList()){
+            CoordinateDTO cDTO = new CoordinateDTO();
+            cDTO.setLongitude(coords.getLongitude());
+            cDTO.setLatidute(coords.getLatitude());
+            log.info("cDTO 의 x : " + cDTO.getLongitude() + "cDTO의 y "+ cDTO.getLatidute());
+            placeList.add(cDTO);
         }
+        clDTO.setPlaceList(placeList);
+        clDTO.setCourseName(list.getCourseName());
+        getCourseLists.add(clDTO);
+
         return getCourseLists;
     }
 }

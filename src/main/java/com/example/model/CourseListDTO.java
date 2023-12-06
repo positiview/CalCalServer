@@ -9,8 +9,11 @@ public class CourseListDTO {
 
     private Long cid;
 
+    private String email;
+
     private String courseName;
 
     private List<CoordinateDTO> placeList;
+
 
 }
