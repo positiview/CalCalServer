@@ -3,9 +3,11 @@ package com.example.service;
 import com.example.entity.RouteAndTime;
 import com.example.entity.RouteRecord;
 import com.example.model.RouteAndTimeDTO;
+import com.example.model.RouteRecordDTO;
 import com.example.repository.RouteRecordRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -15,9 +17,12 @@ public class RouteRecordService {
 
     private RouteRecordRepository routeRecordRepository;
 
-    public void saveRouteRecord(List<RouteAndTimeDTO> list, String email){
+    public void saveRouteRecord(List<RouteAndTimeDTO> list, String email, String cName){
         RouteRecord rr =new RouteRecord();
         rr.setEmail(email);
+        rr.setCourseName(cName);
+
+        RouteRecord saveEntity = routeRecordRepository.save(rr);
 
         for(RouteAndTimeDTO ratDTO : list){
             RouteAndTime rat = new RouteAndTime();
@@ -25,31 +30,37 @@ public class RouteRecordService {
             rat.setLongitude(ratDTO.getLongitude());
             rat.setLatitude(ratDTO.getLatitude());
             rat.setTime(ratDTO.getTime());
-            rr.getRouteRecordList().add(rat);
+            rat.setRouteRecord(saveEntity);
+            rr.getRatList().add(rat);
         }
+
 
         routeRecordRepository.save(rr);
 
     }
+    @Transactional(readOnly = true)
+    public List<RouteRecordDTO> getRouteRecord(String email){
+        List<RouteRecordDTO> getRecordDTOList = new ArrayList<>();
 
-    public List<RouteAndTimeDTO> getRouteRecord(String email){
 
-        Optional<RouteRecord> rr = routeRecordRepository.findByEmail(email);
-
-        if(!rr.isEmpty()){
-            return Collections.emptyList();
+        RouteRecordDTO routeRecordDTO = new RouteRecordDTO();
+        List<RouteRecord> recordList = routeRecordRepository.findAllByEmail(email);
+        for(RouteRecord rr : recordList){
+            List<RouteAndTimeDTO> ratList = new ArrayList<>();
+            for(RouteAndTime rat : rr.getRatList()){
+                RouteAndTimeDTO ratDTO = new RouteAndTimeDTO();
+                ratDTO.setLatitude(rat.getLatitude());
+                ratDTO.setLongitude(rat.getLongitude());
+                ratDTO.setTime(rat.getTime());
+                ratList.add(ratDTO);
+            }
+            routeRecordDTO.setRatList(ratList);
+            routeRecordDTO.setCourseName(rr.getCourseName());
+            getRecordDTOList.add(routeRecordDTO);
         }
 
-        List<RouteAndTimeDTO> ratList = new ArrayList<>();
-        for(RouteAndTime rat :rr.get().getRouteRecordList()){
-            RouteAndTimeDTO dto = new RouteAndTimeDTO();
-            dto.setLatitude(rat.getLatitude());
-            dto.setLongitude(rat.getLongitude());
-            dto.setTime(rat.getTime());
-            ratList.add(dto);
-        }
+        return getRecordDTOList;
 
-        return ratList;
     }
 
 }
