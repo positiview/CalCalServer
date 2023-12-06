@@ -22,6 +22,6 @@ public class RouteRecord {
     private String courseName;
 
     @OneToMany(mappedBy = "routeRecord", cascade = CascadeType.ALL)
-    private List<RouteAndTime> ratList = new ArrayList<>();
+    private List<RouteAndTime> ratList;
 
 }

@@ -46,23 +46,30 @@ public class CourseService {
     @Transactional(readOnly = true)
     public List<CourseListDTO> getAllCourseLists(String email){
         List<CourseListDTO> getCourseLists = new ArrayList<>();
-        CourseListDTO clDTO = new CourseListDTO();
-        CourseList list = repository.findCourseListByEmail(email);
+
+
+        List<CourseList> lists = repository.findByEmail(email); //left join 된 CourseList
 
 
 
-        List<CoordinateDTO> placeList = new ArrayList<>();
+        for(CourseList courselist: lists) {
 
-        for(Coordinate coords : list.getPlaceList()){
-            CoordinateDTO cDTO = new CoordinateDTO();
-            cDTO.setLongitude(coords.getLongitude());
-            cDTO.setLatidute(coords.getLatitude());
-            log.info("cDTO 의 x : " + cDTO.getLongitude() + "cDTO의 y "+ cDTO.getLatidute());
-            placeList.add(cDTO);
+
+            List<CoordinateDTO> placeList = new ArrayList<>();
+            for (Coordinate coords : courselist.getPlaceList()) {
+                CoordinateDTO cDTO = new CoordinateDTO();
+                cDTO.setLongitude(coords.getLongitude());
+                cDTO.setLatidute(coords.getLatitude());
+                log.info("cDTO 의 x : " + cDTO.getLongitude() + "cDTO의 y " + cDTO.getLatidute());
+                placeList.add(cDTO);
+            }
+
+            CourseListDTO clDTO = new CourseListDTO();
+            clDTO.setPlaceList(placeList);
+            clDTO.setCourseName(courselist.getCourseName());
+            getCourseLists.add(clDTO);
+
         }
-        clDTO.setPlaceList(placeList);
-        clDTO.setCourseName(list.getCourseName());
-        getCourseLists.add(clDTO);
 
         return getCourseLists;
     }

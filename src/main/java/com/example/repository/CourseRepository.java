@@ -14,8 +14,9 @@ public interface CourseRepository extends JpaRepository<CourseList,Long> {
 
 
     @Query(value = "SELECT cl.course_no, cl.course_name, cl.email, co.latitude, co.longitude, cl.reg_time FROM course_list cl LEFT JOIN coordinate co ON cl.course_no = co.course_no WHERE cl.email = :email" ,nativeQuery = true)
-    CourseList findCourseListByEmail(@Param("email") String email);
+    List<CourseList> findCourseListByEmail(@Param("email") String email);
 
 
+    List<CourseList> findByEmail(String email);
 
 }

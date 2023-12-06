@@ -27,7 +27,7 @@ public class CourseList {
     private String courseName;
 
     @OneToMany(mappedBy = "courseList", cascade = CascadeType.ALL)
-    private List<Coordinate> placeList = new ArrayList<>();
+    private List<Coordinate> placeList;
 
 //    private int coordinateCount; // 새로 추가된 필드
 
