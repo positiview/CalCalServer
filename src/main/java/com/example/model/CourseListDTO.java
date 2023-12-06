@@ -9,8 +9,11 @@ public class CourseListDTO {
 
     private Long course_no;
 
+    private String email;
+
     private String courseName;
 
     private List<CoordinateDTO> placeList; // 필드명 변경
+
 
 }

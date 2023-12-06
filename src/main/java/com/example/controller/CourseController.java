@@ -34,6 +34,7 @@ public class CourseController {
 
     @GetMapping(value = "/getList", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CourseListDTO>> getAllCourseLists(@RequestParam("email") String email){
+        log.info("email은 : "+email);
         List<CourseListDTO> courseLists = courseService.getAllCourseLists(email);
         log.info("list 뭡니까? " + courseLists);
         return new ResponseEntity<>(courseLists, HttpStatus.OK);
