@@ -1,10 +1,7 @@
 package com.example.entity;
 
 import com.example.model.RouteAndTimeDTO;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,10 +14,14 @@ import java.util.List;
 public class RouteRecord {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long rid;
+
     private String email;
 
+    private String courseName;
 
     @OneToMany(mappedBy = "routeRecord", cascade = CascadeType.ALL)
-    private List<RouteAndTime> RouteRecordList = new ArrayList<>();
+    private List<RouteAndTime> ratList = new ArrayList<>();
 
 }
