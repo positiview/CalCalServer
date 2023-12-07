@@ -13,14 +13,14 @@ public class RouteAndTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ratId;
 
-    private Long latitude;
+    private Double latitude;
 
-    private Long longitude;
+    private Double longitude;
 
     private Long time;
 
     @ManyToOne
-    @JoinColumn(name = "routeRecord_email")
+    @JoinColumn(name = "record_id")
     private RouteRecord routeRecord;
 
 

@@ -43,9 +43,9 @@ public class RouteRecordService {
         List<RouteRecordDTO> getRecordDTOList = new ArrayList<>();
 
 
-        RouteRecordDTO routeRecordDTO = new RouteRecordDTO();
         List<RouteRecord> recordList = routeRecordRepository.findAllByEmail(email);
         for(RouteRecord rr : recordList){
+            RouteRecordDTO routeRecordDTO = new RouteRecordDTO();
             List<RouteAndTimeDTO> ratList = new ArrayList<>();
             for(RouteAndTime rat : rr.getRatList()){
                 RouteAndTimeDTO ratDTO = new RouteAndTimeDTO();

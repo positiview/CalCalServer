@@ -15,6 +15,7 @@ public class RouteRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "record_id") // 컬럼명 추가
     private Long rid;
 
     private String email;
@@ -22,6 +23,6 @@ public class RouteRecord {
     private String courseName;
 
     @OneToMany(mappedBy = "routeRecord", cascade = CascadeType.ALL)
-    private List<RouteAndTime> ratList;
+    private List<RouteAndTime> ratList = new ArrayList<>();
 
 }
