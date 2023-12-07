@@ -7,13 +7,13 @@ import java.util.List;
 @Data
 public class CourseListDTO {
 
-    private Long cid;
+    private Long course_no;
 
     private String email;
 
     private String courseName;
 
-    private List<CoordinateDTO> placeList;
+    private List<CoordinateDTO> placeList; // 필드명 변경
 
 
 }

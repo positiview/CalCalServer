@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,7 @@ public class Coordinate {
     @Column(name = "Coordinate_id")
     private Long id;
 
+    @JsonIgnoreProperties("placeList")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_no")
     private CourseList courseList;
