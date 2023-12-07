@@ -7,6 +7,7 @@ import com.example.model.CourseListDTO;
 import com.example.repository.CourseRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,26 +45,35 @@ public class CourseService {
 
     }
     @Transactional(readOnly = true)
-    public List<CourseListDTO> getAllCourseLists(String email){
+    public List<CourseListDTO> getAllCourseLists(String email) {
         List<CourseListDTO> getCourseLists = new ArrayList<>();
-        CourseListDTO clDTO = new CourseListDTO();
-        CourseList list = repository.findCourseListByEmail(email);
+        List<CourseList> lists = repository.findCourseListByEmail(email);
 
+        for (CourseList list : lists) {
+            CourseListDTO clDTO = new CourseListDTO();
+            List<CoordinateDTO> placeList = new ArrayList<>();
 
+            // placeList 필드에 접근하여 데이터를 가져올 때에만 로딩
+            Hibernate.initialize(list.getPlaceList());
 
-        List<CoordinateDTO> placeList = new ArrayList<>();
+            for (Coordinate coords : list.getPlaceList()) {
+                CoordinateDTO cDTO = new CoordinateDTO();
+                cDTO.setLongitude(coords.getLongitude());
+                cDTO.setLatidute(coords.getLatitude());
+                log.info("cDTO 의 x : " + cDTO.getLongitude() + ", cDTO의 y: " + cDTO.getLatidute());
+                placeList.add(cDTO);
+            }
 
-        for(Coordinate coords : list.getPlaceList()){
-            CoordinateDTO cDTO = new CoordinateDTO();
-            cDTO.setLongitude(coords.getLongitude());
-            cDTO.setLatidute(coords.getLatitude());
-            log.info("cDTO 의 x : " + cDTO.getLongitude() + "cDTO의 y "+ cDTO.getLatidute());
-            placeList.add(cDTO);
+            clDTO.setPlaceList(placeList);
+            clDTO.setCourseName(list.getCourseName());
+            getCourseLists.add(clDTO);
         }
-        clDTO.setPlaceList(placeList);
-        clDTO.setCourseName(list.getCourseName());
-        getCourseLists.add(clDTO);
 
         return getCourseLists;
+    }
+
+//     course_no에 해당하는 CourseList 엔티티를 삭제하는 메서드
+    public void deleteCourseList(Long course_no) {
+        repository.deleteByCourseNo(course_no);
     }
 }

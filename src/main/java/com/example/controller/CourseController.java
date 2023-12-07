@@ -33,10 +33,19 @@ public class CourseController {
     }
 
     @GetMapping(value = "/getList", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<CourseListDTO>> getAllCourseLists(@RequestParam("email") String email){
-        log.info("email은 : "+email);
+    public ResponseEntity<List<CourseListDTO>> getAllCourseLists(@RequestParam("email") String email) {
+        log.info("email은 : " + email);
         List<CourseListDTO> courseLists = courseService.getAllCourseLists(email);
         log.info("list 뭡니까? " + courseLists);
         return new ResponseEntity<>(courseLists, HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteCourse(@PathVariable("course_no") Long course_no) {
+        courseService.deleteCourseList(course_no);
+        log.info("Course deleted with courseNo: " + course_no);
+
+        return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 }
