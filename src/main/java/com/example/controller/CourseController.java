@@ -41,7 +41,7 @@ public class CourseController {
     }
 
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{course_no}")
     public ResponseEntity<String> deleteCourse(@PathVariable("course_no") Long course_no) {
         courseService.deleteCourseList(course_no);
         log.info("Course deleted with courseNo: " + course_no);

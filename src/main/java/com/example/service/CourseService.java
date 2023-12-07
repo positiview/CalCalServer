@@ -66,6 +66,7 @@ public class CourseService {
 
             clDTO.setPlaceList(placeList);
             clDTO.setCourseName(list.getCourseName());
+            clDTO.setCourse_no(list.getCourseNo());
             getCourseLists.add(clDTO);
         }
 
@@ -73,7 +74,14 @@ public class CourseService {
     }
 
 //     course_no에 해당하는 CourseList 엔티티를 삭제하는 메서드
-    public void deleteCourseList(Long course_no) {
+@Transactional
+public void deleteCourseList(Long course_no) {
+    try {
         repository.deleteByCourseNo(course_no);
+        log.info("Course deleted with courseNo: " + course_no);
+    } catch (Exception e) {
+        log.error("Failed to delete course with courseNo: " + course_no, e);
+        // throw e or handle exception
     }
+}
 }
