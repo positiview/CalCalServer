@@ -24,19 +24,20 @@ public class RecordController {
     @PostMapping("/save")
     public ResponseEntity<String> saveRecord(@RequestBody List<RouteAndTimeDTO> ratList,
                                              @RequestParam String userEmail,
-                                             @RequestParam String courseName){
+                                             @RequestParam String courseName,
+                                             @RequestParam Double calorie){
         log.info("list : " + ratList);
         log.info("email : " + userEmail);
 
-        routeRecordService.saveRouteRecord(ratList,userEmail,courseName);
+        routeRecordService.saveRouteRecord(ratList,userEmail,courseName,calorie);
 
         return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 
     @GetMapping("/history")
-    public ResponseEntity<List<RouteRecordDTO>> getHistory(@RequestParam String email){
-        List<RouteRecordDTO> myRouteHistories = routeRecordService.getRouteRecord(email);
-
-        return  new ResponseEntity<>(myRouteHistories,HttpStatus.OK);
+    public ResponseEntity<List<RouteRecordDTO>> getHistory(@RequestParam String userEmail){
+        List<RouteRecordDTO> myRouteHistories = routeRecordService.getRouteRecord(userEmail);
+        log.info("myRoutehistories == " + myRouteHistories);
+        return new ResponseEntity<>(myRouteHistories,HttpStatus.OK);
     }
 }

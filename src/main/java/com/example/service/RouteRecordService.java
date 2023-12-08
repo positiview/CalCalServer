@@ -17,10 +17,11 @@ public class RouteRecordService {
 
     private RouteRecordRepository routeRecordRepository;
 
-    public void saveRouteRecord(List<RouteAndTimeDTO> list, String email, String cName){
+    public void saveRouteRecord(List<RouteAndTimeDTO> list, String email, String cName, Double calorie){
         RouteRecord rr =new RouteRecord();
         rr.setEmail(email);
         rr.setCourseName(cName);
+        rr.setCalorie(calorie);
 
         RouteRecord saveEntity = routeRecordRepository.save(rr);
 
@@ -56,6 +57,8 @@ public class RouteRecordService {
             }
             routeRecordDTO.setRatList(ratList);
             routeRecordDTO.setCourseName(rr.getCourseName());
+            routeRecordDTO.setCalorie(rr.getCalorie());
+            routeRecordDTO.setRegDate(rr.getRegDate());
             getRecordDTOList.add(routeRecordDTO);
         }
 
