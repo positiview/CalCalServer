@@ -22,4 +22,5 @@ public class ExerciseEntity {
     private Integer excal;
     private Integer extime;
     private String email;
+    private Boolean exmove;
 }
