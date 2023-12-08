@@ -5,6 +5,8 @@ import com.example.entity.MemberEntity;
 import com.example.model.MemberDTO;
 import com.example.repository.MemberRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -81,5 +83,17 @@ public class MemberService {
             // 회원 정보가 없는 경우
             return null;
         }
+    }
+
+    public Page<MemberEntity> getMemberList(Pageable pageable) {
+        return memberRepository.findAll(pageable);
+    }
+
+    public Page<MemberEntity> getemailList(String keyword, Pageable pageable) {
+        return memberRepository.getByemailLike(keyword, pageable);
+    }
+
+    public Page<MemberEntity> getphoneList(String keyword, Pageable pageable) {
+        return memberRepository.getByphoneLike(keyword, pageable);
     }
 }

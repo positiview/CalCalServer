@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:fragment="admin_header">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <body style="">
+
+    <!-- header -->
+    <!-- Aside Start-->
+    <aside class="left-panel" tabindex="5000" style="overflow: hidden; outline: none;">
+
+        <!-- brand -->
+        <div class="logo">
+            <a href="/admin/main" class="logo-expanded">
+                <span class="nav-label" style="font-size: 20px; box-sizing: border-box;">AIRCAR 관리자</span>
+            </a>
+        </div>
+        <!-- / brand -->
+
+        <!-- Navbar Start -->
+        <nav class="navigation">
+            <ul class="list-unstyled">
+                <li class="has-submenu"><a href="/admin/main"><i class="fa fa-picture-o"></i> <span class="nav-label">홈관리</span></a>
+                </li>
+                <li class="has-submenu"><a href="/admin/member"><i class="fa fa-sun-o"></i> <span class="nav-label">회원관리</span></a>
+                </li>
+                <li class="has-submenu"><a href="/admin/car"><i class="fa fa-folder-open-o"></i> <span class="nav-label">게시글관리</span></a>
+                </li>
+                <li class="has-submenu"><a href="/admin/reserve"><i class="fa fa-folder-open-o"></i> <span class="nav-label">예약관리</span></a>
+                </li>
+                <li class="has-submenu"><a href="/admin/counseling"><i class="fa fa-crm"></i> <span class="nav-label">문의 관리</span></a>
+                </li>
+                <li class="has-submenu"><a href="/admin/notices"><i class="fa fa-bell-o"></i> <span class="nav-label">자주 찾는 질문</span></a>
+                </li>
+                <li class="has-submenu"><a href="/admin/upload"><i class="fa fa-bell-o"></i> <span class="nav-label">차량 등록</span></a>
+                </li>
+            </ul>
+        </nav>
+
+    </aside>
+    <!-- Aside Ends-->
+
+
+    <!--Main Content Start -->
+    <section class="content">
+
+        <!-- Header -->
+        <header class="top-head container-fluid">
+
+
+            <!-- Left navbar -->
+            <h2 class="title_info pull-left fs18 navbar-left" style=" margin-top:15px;">
+            </h2>
+            <a href="/main" style="font-size: 20px; ">
+                홈페이지가기
+            </a>
+            <!-- Right navbar -->
+            <ul class="list-inline navbar-right top-menu top-right-menu" sec:authorize="isAuthenticated()">
+
+                <!-- user login dropdown start-->
+                <li class="dropdown text-center">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <img alt="" src="/img/ico65_bg.jpg" class="img-circle profile-img thumb-sm">
+                        <span class="username">[[${session.memberInfo.getNickname()}]]님</span> <span class="caret"></span>
+                    </a>
+                    <ul id="userDropdown" class="dropdown-menu extended pro-menu fadeInUp animated" tabindex="5003" style="overflow: hidden; outline: none;">
+                        <li><a href="/member/logout"><i class="fa fa-sign-out"></i> Log Out</a></li>
+                    </ul>
+                </li>
+                <!-- user login dropdown end -->
+            </ul>
+
+        </header>
+        <!-- Header Ends -->
+        <script>
+            $(document).ready(function () {
+                $('.dropdown-toggle').click(function () {
+                    $('#userDropdown').toggle();
+                });
+
+                // Close the dropdown if user clicks outside of it
+                $(document).click(function (event) {
+                    if (!$(event.target).closest('.dropdown-toggle').length && !$(event.target).closest('#userDropdown').length) {
+                        $('#userDropdown').hide();
+                    }
+                });
+            });
+        </script>
+</th:block>
+</html>

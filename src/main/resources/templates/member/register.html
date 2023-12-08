@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>CalCal-admin</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        $(document).ready(function(){
+            (() => {
+                'use strict'
+
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                const forms = document.querySelectorAll('.needs-validation')
+
+                // Loop over them and prevent submission
+                // submit 버튼을 누르면
+                // 만일 에러일 경우는 form에 was-validated 클래스를 삽입한다.
+                Array.from(forms).forEach(form => {
+                    form.addEventListener('submit', event => {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        } else {
+                            // 2개 비밀번호 맞는지 확인
+                            var fisrt_password = $("#pwd").val();
+                            var second_password = $("#pwd_confirm").val();
+                            if(fisrt_password !== second_password) {
+                                alert("비밀번호가 서로 틀립니다. 확인해주세요.");
+                                $("#pwd_confirm").select();
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+            })()
+        });
+    </script>
+</head>
+<body>
+
+<div class="container mt-3">
+    <div class="position-absolute top-50 start-50 translate-middle bg-secondary" style="--bs-bg-opacity: .2;">
+        <div class="m-5">
+            <form th:action="@{/register}" method="post" class="needs-validation" novalidate>
+                <div class="input-group mx-5"></div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="loginId" placeholder="example" name="loginId" required>
+                    <label for="loginId">아이디</label>
+                    <div class="invalid-feedback">
+                        아이디를 입력해주세요.
+                    </div>
+                </div>
+                <div class="form-floating mb-1">
+                    <input type="password" class="form-control" id="pwd" placeholder="****" name="password" required>
+                    <label for="pwd">비밀번호</label>
+                    <div class="invalid-feedback">
+                        비밀번호를 입력해주세요.
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="pwd_confirm" placeholder="****" required>
+                    <label for="pwd_confirm">비밀번호 확인</label>
+                    <div class="invalid-feedback">
+                        비밀번호를 입력해주세요.
+                    </div>
+                </div>
+                <div class="form-check mb-3"></div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary rounded-pill">가입</button>
+                    <span>[[${errorMessage}]]</span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
