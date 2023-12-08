@@ -31,18 +31,6 @@ public class ExerciseController {
         return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<String> login(@RequestBody ExerciseDTO exerciseDTO) {
-//        // 로그인 로직 구현
-//        boolean loginSuccessful = exerciseService.login(memberDTO.getEmail(), memberDTO.getPassword());
-//
-//        if (loginSuccessful) {
-//            return new ResponseEntity<>("Success", HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>("Failure", HttpStatus.UNAUTHORIZED);
-//        }
-//    }
-// 흔적기관
 
 
     @PutMapping("/updateExerciseData")
@@ -59,7 +47,7 @@ public class ExerciseController {
     }
     @GetMapping("/getExerciseData")
     public ResponseEntity<ExerciseDTO> getExerciseData(@RequestParam String exname) {
-        ExerciseDTO exerciseDTO = ExerciseService.getExerciseData(exname);
+        ExerciseDTO exerciseDTO = exerciseService.getExerciseData(exname);
 
         if (exerciseDTO != null) {
             return new ResponseEntity<>(exerciseDTO, HttpStatus.OK);

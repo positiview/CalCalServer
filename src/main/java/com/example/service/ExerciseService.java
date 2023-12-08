@@ -13,7 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ExerciseService {
 
-    private static ExerciseRepository exerciseRepository;
+    private ExerciseRepository exerciseRepository;
+
 
 
     public void saveExercise(ExerciseDTO exerciseDTO){
@@ -24,7 +25,7 @@ public class ExerciseService {
         exerciseEntity.setExcal(exerciseDTO.getExcal());
         exerciseEntity.setExtime(exerciseDTO.getExtime());
         exerciseEntity.setEmail(exerciseDTO.getEmail());
-
+        exerciseEntity.setExmove(exerciseDTO.getExmove());
 
 
         exerciseRepository.save(exerciseEntity);
@@ -39,6 +40,7 @@ public class ExerciseService {
             exercise.setExcal(exerciseDTO.getExcal());
             exercise.setExtime(exerciseDTO.getExtime());
             exercise.setEmail(exerciseDTO.getEmail());
+            exercise.setExmove(exerciseDTO.getExmove());
             exerciseRepository.save(exercise);
             return true;
         } else {
@@ -50,7 +52,7 @@ public class ExerciseService {
         return exerciseRepository.findAll();
     }
 
-    public static ExerciseDTO getExerciseData(String exname) {
+    public ExerciseDTO getExerciseData(String exname) {
         ExerciseEntity exercise = exerciseRepository.findByExname(exname);
 
         if (exercise != null) {
@@ -62,10 +64,12 @@ public class ExerciseService {
             exerciseDTO.setExcal(exercise.getExcal());
             exerciseDTO.setExtime(exercise.getExtime());
             exerciseDTO.setEmail(exercise.getEmail());
+            exerciseDTO.setExmove(exerciseDTO.getExmove());
+
 
             return exerciseDTO;
         } else {
-            // 회원 정보가 없는 경우
+
             return null;
         }
     }

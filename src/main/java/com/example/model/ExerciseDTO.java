@@ -15,4 +15,6 @@ public class ExerciseDTO {
     private Integer extime;
 
     private String email;
+
+    private Boolean exmove;
 }
