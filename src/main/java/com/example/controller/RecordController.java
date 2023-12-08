@@ -23,12 +23,12 @@ public class RecordController {
 
     @PostMapping("/save")
     public ResponseEntity<String> saveRecord(@RequestBody List<RouteAndTimeDTO> ratList,
-                                             @RequestParam String email,
+                                             @RequestParam String userEmail,
                                              @RequestParam String courseName){
         log.info("list : " + ratList);
-        log.info("email : " + email);
+        log.info("email : " + userEmail);
 
-        routeRecordService.saveRouteRecord(ratList,email,courseName);
+        routeRecordService.saveRouteRecord(ratList,userEmail,courseName);
 
         return new ResponseEntity<>("Success", HttpStatus.OK);
     }

@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 public class RouteAndTimeDTO {
 
-    private Long latitude;
+    private Double latitude;
 
-    private Long longitude;
+    private Double longitude;
 
     private Long time;
 
