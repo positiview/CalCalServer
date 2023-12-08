@@ -16,4 +16,5 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     @Query("select m from MemberEntity m where m.phone like %:keyword% order by m.mno desc")
     Page<MemberEntity> getByphoneLike(String keyword, Pageable pageable);
 
+    MemberEntity findByMno(Long mno);
 }

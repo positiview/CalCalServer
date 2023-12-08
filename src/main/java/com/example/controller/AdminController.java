@@ -1,7 +1,9 @@
 package com.example.controller;
 
 import com.example.entity.AdminMember;
+import com.example.entity.MemberEntity;
 import com.example.model.AdminMemberDTO;
+import com.example.repository.MemberRepository;
 import com.example.service.AdminMemberService;
 import com.example.service.MemberService;
 import lombok.AllArgsConstructor;
@@ -21,6 +23,7 @@ public class AdminController {
 
     private MemberService memberService;
     private PasswordEncoder passwordEncoder;
+    private MemberRepository memberRepository;
     private AdminMemberService adminMemberService;
 
     @GetMapping("/adminLogin")
@@ -80,5 +83,22 @@ public class AdminController {
         model.addAttribute("keyword", keyword);
 
         return "/user/user";
+    }
+
+    @GetMapping("/userView")
+    public String memberView(Long mno, Model model) {
+        MemberEntity member = memberRepository.findByMno(mno);
+
+
+        model.addAttribute("member", member);
+
+        return "user/user_view";
+    }
+
+    @GetMapping("/userDelete")
+    public String memberDelete(Long mno) {
+        memberRepository.deleteById(mno);
+
+        return "redirect:/user";
     }
 }
