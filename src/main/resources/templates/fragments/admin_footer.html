@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="admin_footer">
+
+
+    <!-- Footer Start -->
+    <footer class="footer text_nor">
+        2023 © carair. All rights reserved.
+    </footer>
+    <!-- Footer Ends -->
+
+
+    </section>
+    <!-- Main Content Ends -->
+
+
+    </body>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+
+        $('.uploadBtn').click(function () {
+            console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            var formData = new FormData();
+
+            // var inputFile = $("input[type='file']");
+            var files = $("input[type='file']");
+            var carName = $("input[name='carName']").val();
+            var brandName = $("input[name='brandName']").val();
+
+            //var files = inputFile[0].files;
+
+            for (var i = 0; i < files.length; i++) {
+                console.log(files[i].files);
+                for(var j = 0; j < files[i].files.length; j++){
+                    console.log(files[i].files[j]);
+                    formData.append("uploadFiles", files[i].files[j]);
+                }
+            }
+            formData.append("carName" , carName);
+            formData.append("brandName" , brandName);
+
+            console.log(token);
+            console.log(header);
+            //실제 업로드 부분
+            //upload ajax
+            //파일업로드를 위해 contentType 속성을 반드시 false로 지정한다 -> multipart/form-data 타입을 사용하기위해
+            $.ajax({
+                url: '/uploadAjax',
+                processData: false,
+                contentType: false,
+                data: formData,
+                type: 'POST',
+                dataType: 'json',
+                beforeSend : function(xhr)
+                {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+                    xhr.setRequestHeader(header, token);
+                },
+                success: function (result) {
+                    console.log("a");
+                    console.log(result);
+                    console.log("b");
+                    // $("[name=uuidBrandImg").val()
+                    //나중에 화면 처리
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus);
+                }
+
+            }); //$.ajax
+        }); //end click
+    </script>
+</html>
