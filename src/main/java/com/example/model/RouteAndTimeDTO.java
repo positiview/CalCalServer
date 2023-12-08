@@ -13,6 +13,6 @@ public class RouteAndTimeDTO {
 
     private Double longitude;
 
-    private Double time;
+    private Double recordTime;
 
 }

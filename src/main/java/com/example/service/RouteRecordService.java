@@ -30,7 +30,7 @@ public class RouteRecordService {
 
             rat.setLongitude(ratDTO.getLongitude());
             rat.setLatitude(ratDTO.getLatitude());
-            rat.setTime(ratDTO.getTime());
+            rat.setTime(ratDTO.getRecordTime());
             rat.setRouteRecord(saveEntity);
             rr.getRatList().add(rat);
         }
@@ -52,7 +52,7 @@ public class RouteRecordService {
                 RouteAndTimeDTO ratDTO = new RouteAndTimeDTO();
                 ratDTO.setLatitude(rat.getLatitude());
                 ratDTO.setLongitude(rat.getLongitude());
-                ratDTO.setTime(rat.getTime());
+                ratDTO.setRecordTime(rat.getTime());
                 ratList.add(ratDTO);
             }
             routeRecordDTO.setRatList(ratList);

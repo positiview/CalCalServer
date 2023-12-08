@@ -29,6 +29,7 @@ public class RecordController {
         log.info("list : " + ratList);
         log.info("email : " + userEmail);
 
+
         routeRecordService.saveRouteRecord(ratList,userEmail,courseName,calorie);
 
         return new ResponseEntity<>("Success", HttpStatus.OK);
