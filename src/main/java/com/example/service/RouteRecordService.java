@@ -6,6 +6,7 @@ import com.example.model.RouteAndTimeDTO;
 import com.example.model.RouteRecordDTO;
 import com.example.repository.RouteRecordRepository;
 import lombok.AllArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +18,12 @@ public class RouteRecordService {
 
     private RouteRecordRepository routeRecordRepository;
 
-    public void saveRouteRecord(List<RouteAndTimeDTO> list, String email, String cName, Double calorie){
+    public void saveRouteRecord(List<RouteAndTimeDTO> list, String email, String cName, Double calorie, String distance){
         RouteRecord rr =new RouteRecord();
         rr.setEmail(email);
         rr.setCourseName(cName);
         rr.setCalorie(calorie);
+        rr.setDistance(distance);
 
         RouteRecord saveEntity = routeRecordRepository.save(rr);
 
@@ -42,12 +44,15 @@ public class RouteRecordService {
     @Transactional(readOnly = true)
     public List<RouteRecordDTO> getRouteRecord(String email){
         List<RouteRecordDTO> getRecordDTOList = new ArrayList<>();
-
-
         List<RouteRecord> recordList = routeRecordRepository.findAllByEmail(email);
+
+
         for(RouteRecord rr : recordList){
             RouteRecordDTO routeRecordDTO = new RouteRecordDTO();
             List<RouteAndTimeDTO> ratList = new ArrayList<>();
+
+            Hibernate.initialize(rr.getRatList());
+
             for(RouteAndTime rat : rr.getRatList()){
                 RouteAndTimeDTO ratDTO = new RouteAndTimeDTO();
                 ratDTO.setLatitude(rat.getLatitude());
@@ -59,6 +64,7 @@ public class RouteRecordService {
             routeRecordDTO.setCourseName(rr.getCourseName());
             routeRecordDTO.setCalorie(rr.getCalorie());
             routeRecordDTO.setRegDate(rr.getRegDate());
+            routeRecordDTO.setDistance(rr.getDistance());
             getRecordDTOList.add(routeRecordDTO);
         }
 

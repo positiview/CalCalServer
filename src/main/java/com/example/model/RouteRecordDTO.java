@@ -1,8 +1,8 @@
 package com.example.model;
 
-import com.example.entity.RouteAndTime;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,6 +13,8 @@ public class RouteRecordDTO {
     private String courseName;
 
     private Double calorie;
+
+    private String distance;
 
     private List<RouteAndTimeDTO> ratList;
 
