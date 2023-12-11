@@ -25,12 +25,13 @@ public class RecordController {
     public ResponseEntity<String> saveRecord(@RequestBody List<RouteAndTimeDTO> ratList,
                                              @RequestParam String userEmail,
                                              @RequestParam String courseName,
-                                             @RequestParam Double calorie){
+                                             @RequestParam Double calorie,
+                                             @RequestParam String distance){
         log.info("list : " + ratList);
         log.info("email : " + userEmail);
 
 
-        routeRecordService.saveRouteRecord(ratList,userEmail,courseName,calorie);
+        routeRecordService.saveRouteRecord(ratList,userEmail,courseName,calorie,distance);
 
         return new ResponseEntity<>("Success", HttpStatus.OK);
     }
