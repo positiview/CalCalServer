@@ -7,6 +7,7 @@ import com.example.repository.ExerciseRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -72,5 +73,26 @@ public class ExerciseService {
 
             return null;
         }
+    }
+
+    public List<ExerciseDTO> getAllExercises() {
+        List<ExerciseEntity> exercises = exerciseRepository.findAll(); // 데이터베이스에서 모든 운동 데이터를 가져옵니다.
+        List<ExerciseDTO> exerciseDTOs = new ArrayList<>();
+
+        for (ExerciseEntity exercise : exercises) {
+            ExerciseDTO exerciseDTO = new ExerciseDTO();
+
+            exerciseDTO.setExname(exercise.getExname());
+            exerciseDTO.setExicon(exercise.getExicon());
+            exerciseDTO.setExcontent(exercise.getExcontent());
+            exerciseDTO.setExcal(exercise.getExcal());
+            exerciseDTO.setExtime(exercise.getExtime());
+            exerciseDTO.setEmail(exercise.getEmail());
+            exerciseDTO.setExmove(exercise.getExmove()); // 수정된 부분
+
+            exerciseDTOs.add(exerciseDTO); // 리스트에 DTO 객체를 추가합니다.
+        }
+
+        return exerciseDTOs; // 리스트를 반환합니다.
     }
 }
