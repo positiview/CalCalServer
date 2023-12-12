@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 
 @Data
 public class CalDTO {
+    private int recordId;
+
     private String courseName;
 
     private Double goalCalorie;

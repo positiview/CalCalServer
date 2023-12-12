@@ -67,6 +67,7 @@ public class RouteRecordService {
                 ratDTO.setRecordTime(rat.getTime());
                 ratList.add(ratDTO);
             }
+            routeRecordDTO.setRecordId(rr.getRid().intValue());
             routeRecordDTO.setRatList(ratList);
             routeRecordDTO.setCourseName(rr.getCourseName());
             routeRecordDTO.setGoalCalorie(rr.getGoalCalorie());
@@ -127,6 +128,7 @@ public class RouteRecordService {
             }else{
                 // 오늘 리스트가 없음
             }
+            calDTO.setRecordId(rr.getRid().intValue());
             calDTO.setLongitude(longitude);
             calDTO.setLatitude(latitude);
             calDTO.setCourseName(rr.getCourseName());

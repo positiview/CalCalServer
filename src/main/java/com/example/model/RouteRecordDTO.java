@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 public class RouteRecordDTO {
 
+    private int recordId;
 
     private String courseName;
 
