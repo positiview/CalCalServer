@@ -17,3 +17,16 @@
   padding: 10px;
   width: 1500px;
 }
+
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 10px;
+  flex-shrink: 0;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+

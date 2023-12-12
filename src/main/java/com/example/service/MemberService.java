@@ -5,17 +5,22 @@ import com.example.entity.MemberEntity;
 import com.example.model.MemberDTO;
 import com.example.repository.MemberRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
 public class MemberService {
 
     private MemberRepository memberRepository;
+
+
 
 
     public void saveMember(MemberDTO memberDTO){
@@ -96,4 +101,6 @@ public class MemberService {
     public Page<MemberEntity> getphoneList(String keyword, Pageable pageable) {
         return memberRepository.getByphoneLike(keyword, pageable);
     }
+
+
 }

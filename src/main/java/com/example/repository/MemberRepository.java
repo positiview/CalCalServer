@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     MemberEntity findByEmail(String email);
 
@@ -17,4 +19,10 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     Page<MemberEntity> getByphoneLike(String keyword, Pageable pageable);
 
     MemberEntity findByMno(Long mno);
+
+    @Query("SELECT m.gender, COUNT(m) FROM MemberEntity m GROUP BY m.gender")
+    List<Object[]> countByGender();
+
+    @Query("SELECT m.age, COUNT(m) FROM MemberEntity m GROUP BY m.age")
+    List<Object[]> countByAge();
 }

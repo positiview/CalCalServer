@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<script th:src="@{/js/jquery-3.1.1.min.js}"></script>
+
+
+<div layout:fragment="content" class="m-3">
+
+
+
+    <div id="root" style="height: 100%">
+        <div class="pc_wrap" style="">
+            <div class="wrap sub_wrap">
+                <div class="container">
+                    <div class="inner">
+                        <div class="contents" style="margin: auto;">
+
+                            <div class="title_wrap"><h2 class="title_30 search_form__row">회원 정보 수정</h2></div>
+
+                            <form action="/userUpdate" method="post" th:object="${memberDTO}">
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                                <input type="hidden" name="mno" th:value="${member.mno}">
+
+                                <div class="mb-3">
+                                    <span class="input-group-text">이메일</span>
+                                    <input type="text" name="email" class="form-control" aria-label="category" aria-describedby="basic-addon3" th:field="${member.email}">
+                                </div>
+                                <div class="mb-3">
+                                    <span class="input-group-text">휴대폰번호</span>
+                                    <input type="text" name="phone" class="form-control" aria-label="title" aria-describedby="basic-addon1" th:field="${member.phone}">
+                                </div>
+                                <div class="mb-3">
+                                    <span class="input-group-text">나이</span>
+                                    <input type="text" name="age" class="form-control" aria-label="title" aria-describedby="basic-addon1" th:field="${member.age}">
+                                </div>
+                                <div class="mb-3">
+                                    <span class="input-group-text">성별</span>
+                                    <input type="text" name="gender" class="form-control" aria-label="title" aria-describedby="basic-addon1" th:field="${member.gender}">
+                                </div>
+                                <div class="mb-3">
+                                    <span class="input-group-text">키</span>
+                                    <input type="text" name="length" class="form-control" aria-label="title" aria-describedby="basic-addon1" th:field="${member.length}">
+                                </div>
+                                <div class="mb-3">
+                                    <span class="input-group-text">몸무게</span>
+                                    <input type="text" name="weight" class="form-control" aria-label="title" aria-describedby="basic-addon1" th:field="${member.weight}">
+                                </div>
+
+                                <button type="submit" class="btn btn-secondary" style="margin-right: 30px; width: 100px">수정</button>
+                                <button type="button" class="btn btn-secondary" style="width: 100px"
+                                        th:onclick="|location.href='@{/user}'|">목록</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div style="position: fixed; z-index: 9999; inset: 16px 16px 100px; pointer-events: none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

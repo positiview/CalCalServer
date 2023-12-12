@@ -41,7 +41,7 @@
             <td th:text="${member.phone}"></td>
 
             <td>
-                <a th:href="@{/deleteMember(mno=${member.mno})}" class="btn btn-danger">삭제</a>
+                <a th:href="@{/userDelete(mno=${member.mno})}" class="btn btn-danger" onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</a>
             </td>
 
         </tr>
