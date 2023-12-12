@@ -2,14 +2,10 @@ package com.example.model;
 
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
-public class RouteRecordDTO {
-
-
+public class CalDTO {
     private String courseName;
 
     private Double goalCalorie;
@@ -18,7 +14,13 @@ public class RouteRecordDTO {
 
     private String distance;
 
-    private List<RouteAndTimeDTO> ratList;
+    private Double time;
+
+    private Double longitude;
+
+    private Double latitude;
 
     private LocalDateTime regDate;
+
+    private int countDays;
 }
