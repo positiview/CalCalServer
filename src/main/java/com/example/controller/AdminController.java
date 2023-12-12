@@ -3,10 +3,13 @@ package com.example.controller;
 import com.example.entity.AdminMember;
 import com.example.entity.MemberEntity;
 import com.example.model.AdminMemberDTO;
+import com.example.model.MemberDTO;
 import com.example.repository.MemberRepository;
 import com.example.service.AdminMemberService;
 import com.example.service.MemberService;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -17,8 +20,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Map;
+
 @Controller
 @AllArgsConstructor
+@Log4j2
 public class AdminController {
 
     private MemberService memberService;
@@ -62,7 +68,7 @@ public class AdminController {
 
 
     @GetMapping("/user")
-    public String member(Model model,
+    public String user(Model model,
                          @RequestParam(defaultValue = "") String searchType,
                          @RequestParam(defaultValue = "") String keyword,
                          @PageableDefault(size = 10, sort = "mno",
@@ -86,7 +92,7 @@ public class AdminController {
     }
 
     @GetMapping("/userView")
-    public String memberView(Long mno, Model model) {
+    public String userView(Long mno, Model model) {
         MemberEntity member = memberRepository.findByMno(mno);
 
 
@@ -95,10 +101,42 @@ public class AdminController {
         return "user/user_view";
     }
 
-    @GetMapping("/userDelete")
-    public String memberDelete(Long mno) {
-        memberRepository.deleteById(mno);
+    @GetMapping("/userUpdate")
+    public String userUpdate(Long mno, Model model) {
+        MemberEntity member = memberRepository.findByMno(mno);
 
-        return "redirect:/user";
+        model.addAttribute("member", member);
+
+        return "user/user_update";
     }
+
+    @PostMapping("/userUpdate")
+    public String userUpdate(MemberDTO memberDto) {
+        MemberEntity member = new MemberEntity();
+        log.info("mno : " + memberDto.getMno());
+        member.setMno(memberDto.getMno());
+        member.setEmail(memberDto.getEmail());
+        member.setPassword(memberDto.getPassword());
+        member.setPassword2(memberDto.getPassword2());
+        member.setPhone(memberDto.getPhone());
+        member.setAge(memberDto.getAge());
+        member.setGender(memberDto.getGender());
+        member.setLength(memberDto.getLength());
+        member.setWeight(memberDto.getWeight());
+
+
+        memberRepository.save(member);
+
+        return "redirect:/userView?mno=" + member.getMno();
+    }
+
+
+    @GetMapping("/userDelete")
+    public String userDelete(@RequestParam("mno") Long mno) {
+        memberRepository.deleteById(mno);
+        return "redirect:/user"; // 삭제 후 사용자를 다시 회원 목록 페이지로 리다이렉트합니다.
+    }
+
+
+
 }
