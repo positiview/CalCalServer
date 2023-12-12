@@ -29,12 +29,13 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
-                            .requestMatchers(antMatcher("/css/**")).permitAll()
+                                .anyRequest().permitAll()
+                            /*.requestMatchers(antMatcher("/css/**")).permitAll()
                             .requestMatchers(antMatcher("/img/**")).permitAll()
                             .requestMatchers(antMatcher("/adminLogin")).permitAll()
                             .requestMatchers(antMatcher("/register")).permitAll()
                             .requestMatchers(antMatcher("/auth/**")).permitAll()
-                            .anyRequest().authenticated()
+                            .anyRequest().authenticated()*/
                 )
                 .formLogin((formLogin) ->
                         formLogin

@@ -7,13 +7,15 @@ import com.example.repository.ExerciseRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class ExerciseService {
 
-    private static ExerciseRepository exerciseRepository;
+    private ExerciseRepository exerciseRepository;
+
 
 
     public void saveExercise(ExerciseDTO exerciseDTO){
@@ -24,7 +26,7 @@ public class ExerciseService {
         exerciseEntity.setExcal(exerciseDTO.getExcal());
         exerciseEntity.setExtime(exerciseDTO.getExtime());
         exerciseEntity.setEmail(exerciseDTO.getEmail());
-
+        exerciseEntity.setExmove(exerciseDTO.getExmove());
 
 
         exerciseRepository.save(exerciseEntity);
@@ -39,6 +41,7 @@ public class ExerciseService {
             exercise.setExcal(exerciseDTO.getExcal());
             exercise.setExtime(exerciseDTO.getExtime());
             exercise.setEmail(exerciseDTO.getEmail());
+            exercise.setExmove(exerciseDTO.getExmove());
             exerciseRepository.save(exercise);
             return true;
         } else {
@@ -50,7 +53,7 @@ public class ExerciseService {
         return exerciseRepository.findAll();
     }
 
-    public static ExerciseDTO getExerciseData(String exname) {
+    public ExerciseDTO getExerciseData(String exname) {
         ExerciseEntity exercise = exerciseRepository.findByExname(exname);
 
         if (exercise != null) {
@@ -62,11 +65,34 @@ public class ExerciseService {
             exerciseDTO.setExcal(exercise.getExcal());
             exerciseDTO.setExtime(exercise.getExtime());
             exerciseDTO.setEmail(exercise.getEmail());
+            exerciseDTO.setExmove(exerciseDTO.getExmove());
+
 
             return exerciseDTO;
         } else {
-            // 회원 정보가 없는 경우
+
             return null;
         }
+    }
+
+    public List<ExerciseDTO> getAllExercises() {
+        List<ExerciseEntity> exercises = exerciseRepository.findAll(); // 데이터베이스에서 모든 운동 데이터를 가져옵니다.
+        List<ExerciseDTO> exerciseDTOs = new ArrayList<>();
+
+        for (ExerciseEntity exercise : exercises) {
+            ExerciseDTO exerciseDTO = new ExerciseDTO();
+
+            exerciseDTO.setExname(exercise.getExname());
+            exerciseDTO.setExicon(exercise.getExicon());
+            exerciseDTO.setExcontent(exercise.getExcontent());
+            exerciseDTO.setExcal(exercise.getExcal());
+            exerciseDTO.setExtime(exercise.getExtime());
+            exerciseDTO.setEmail(exercise.getEmail());
+            exerciseDTO.setExmove(exercise.getExmove()); // 수정된 부분
+
+            exerciseDTOs.add(exerciseDTO); // 리스트에 DTO 객체를 추가합니다.
+        }
+
+        return exerciseDTOs; // 리스트를 반환합니다.
     }
 }

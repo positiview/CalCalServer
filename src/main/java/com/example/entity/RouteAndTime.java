@@ -17,7 +17,7 @@ public class RouteAndTime {
 
     private Double longitude;
 
-    private Long time;
+    private Double time;
 
     @ManyToOne
     @JoinColumn(name = "record_id")
