@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<script th:src="@{/js/jquery-3.1.1.min.js}"></script>
+
+
+<div layout:fragment="content" class="m-3">
+
+
+
+    <div class="title_wrap" style="padding: 20px; ">
+        <h2 class="title_30 search_form__row">
+            <th:block th:text="${exercise.exname}"> </th:block>
+            의 정보
+        </h2>
+    </div>
+    <form action="/userDelete" method="post">
+
+        <input type="hidden" name="mno" th:value="${exercise.eno}"/>
+
+        <div class="board_contents mt20">
+            <table id="memberTable">
+                <tr>
+                    <td class="header">작성자</td>
+                    <td class="content"><th:block th:text="${exercise.email}"> </th:block></td>
+                </tr>
+                <tr>
+                    <td class="header">운동명</td>
+                    <td class="content"><th:block th:text="${exercise.exname}"> </th:block></td>
+                </tr>
+                <tr>
+                    <td class="header">내용</td>
+                    <td class="content"><th:block th:text="${exercise.excontent}"> </th:block></td>
+                </tr>
+                <tr>
+                    <td class="header">평균 칼로리</td>
+                    <td class="content"><th:block th:text="${exercise.excal}"> </th:block></td>
+                </tr>
+                <tr>
+                    <td class="header">추천 시간</td>
+                    <td class="content"><th:block th:text="${exercise.extime}"> </th:block></td>
+                </tr>
+
+
+            </table>
+        </div>
+
+
+        <div class="input-group mb-3 pagination justify-content-center" style="margin-top: 30px;">
+            <!-- 수정 버튼 -->
+            <button type="button" class="btn btn-warning" style="margin-right: 20px; width: 100px"
+                    th:onclick="|location.href='@{/exerciseUpdate(eno=${exercise.eno})}'|">수정</button>
+            <!-- 삭제 버튼 클릭 시 모달 열기 -->
+            <td style="margin-right: 20px; width: 100px">
+                <a style="margin-right: 20px; width: 100px" th:href="@{/exerciseDelete(eno=${exercise.eno})}" class="btn btn-danger" onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</a>
+            </td>
+            <button type="button" class="btn btn-primary" style="width: 100px"
+                    th:onclick="|location.href='@{/exercise}'|">목록</button>
+        </div>
+    </form>
+</div>
+</html>

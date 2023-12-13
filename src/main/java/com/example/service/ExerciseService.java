@@ -2,9 +2,12 @@ package com.example.service;
 
 
 import com.example.entity.ExerciseEntity;
+import com.example.entity.MemberEntity;
 import com.example.model.ExerciseDTO;
 import com.example.repository.ExerciseRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -94,5 +97,12 @@ public class ExerciseService {
         }
 
         return exerciseDTOs; // 리스트를 반환합니다.
+    }
+    public Page<ExerciseEntity> getexnameList(String keyword, Pageable pageable) {
+        return exerciseRepository.getByexnameLike(keyword, pageable);
+    }
+
+    public Page<ExerciseEntity> getExerciseList(Pageable pageable) {
+        return exerciseRepository.findAll(pageable);
     }
 }

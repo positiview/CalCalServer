@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class ExerciseDTO {
+    private Long eno;
+
     private String exname;
 
     private String exicon;
