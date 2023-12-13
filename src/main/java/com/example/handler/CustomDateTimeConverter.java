@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 @Converter(autoApply = true)
 public class CustomDateTimeConverter implements AttributeConverter<LocalDateTime, String> {
 
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy'년' MM'월'dd'일' HH'시':mm'분'");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public String convertToDatabaseColumn(LocalDateTime attribute) {

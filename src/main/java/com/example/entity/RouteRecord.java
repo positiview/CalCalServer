@@ -27,6 +27,8 @@ public class RouteRecord {
 
     private String courseName;
 
+    private Double goalCalorie;
+
     private Double calorie;
 
     private String distance;
