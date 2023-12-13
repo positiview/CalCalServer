@@ -23,10 +23,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Map;
 
 @Controller
@@ -173,6 +182,7 @@ public class AdminController {
 
 
         model.addAttribute("exercise", exercise);
+        model.addAttribute("imagePath", exercise.getExicon().replace("\\", "/"));
 
         return "exercise/exercise_view";
     }
@@ -185,20 +195,30 @@ public class AdminController {
 
         return "exercise/exercise_update";
     }
-
     @PostMapping("/exerciseUpdate")
-    public String exerciseUpdate(ExerciseDTO exerciseDTO) {
-        ExerciseEntity exercise = new ExerciseEntity();
+    public String exerciseUpdate(ExerciseDTO exerciseDTO, @RequestParam(value = "exicon", required = false) MultipartFile exicon) {
+        ExerciseEntity exercise = exerciseRepository.findByEno(exerciseDTO.getEno());
 
-        exercise.setEno(exerciseDTO.getEno());
+        // 기존 정보 복사
         exercise.setEmail(exerciseDTO.getEmail());
         exercise.setExcal(exerciseDTO.getExcal());
         exercise.setExcontent(exerciseDTO.getExcontent());
-        exercise.setExicon(exerciseDTO.getExicon());
         exercise.setExname(exerciseDTO.getExname());
         exercise.setExtime(exerciseDTO.getExtime());
         exercise.setExmove(exerciseDTO.getExmove());
 
+        // 이미지 파일 처리
+        MultipartFile exiconFile = exerciseDTO.getExiconFile();
+        if (exiconFile != null && !exiconFile.isEmpty()) {
+            String filename = exiconFile.getOriginalFilename();
+            Path path = Paths.get("uploads/" + filename);
+            try (InputStream input = exiconFile.getInputStream()) {
+                Files.copy(input, path, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            exercise.setExicon(path.toString());
+        }
 
         exerciseRepository.save(exercise);
 
@@ -228,21 +248,51 @@ public class AdminController {
     }
 
     @PostMapping("/exerciseRegister")
-    public String noticesRegister(ExerciseDTO exerciseDTO) {
+    public String exerciseRegister(
+            @RequestParam("exname") String exname,
+            @RequestParam("exicon") MultipartFile exicon,
+            @RequestParam("excontent") String excontent,
+            @RequestParam("excal") Integer excal,
+            @RequestParam("extime") Integer extime,
+            @RequestParam("email") String email
+    ) {
         ExerciseEntity exercise = new ExerciseEntity();
 
-        exercise.setEno(exerciseDTO.getEno());
-        exercise.setEmail(exerciseDTO.getEmail());
-        exercise.setExcal(exerciseDTO.getExcal());
-        exercise.setExcontent(exerciseDTO.getExcontent());
-        exercise.setExicon(exerciseDTO.getExicon());
-        exercise.setExname(exerciseDTO.getExname());
-        exercise.setExtime(exerciseDTO.getExtime());
+        // 파일을 저장하고, 그 경로를 가져옵니다.
+        String filePath = saveFile(exicon);
+
+        exercise.setEmail(email);
+        exercise.setExcal(excal);
+        exercise.setExcontent(excontent);
+        // 파일 경로를 설정합니다.
+        exercise.setExicon(filePath);
+        exercise.setExname(exname);
+        exercise.setExtime(extime);
 
         exerciseRepository.save(exercise);
 
-
-
         return "redirect:/exercise";
     }
+
+
+    public String saveFile(MultipartFile file) {
+        if (file.isEmpty()) {
+            return null;
+        }
+
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+        try {
+            Path path = Paths.get("uploads/" + fileName);
+            // 디렉토리를 확인하고, 없다면 생성합니다.
+            Files.createDirectories(path.getParent());
+            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            return path.toString();
+        } catch (IOException e) {
+            throw new RuntimeException("Could not save the file. Error: " + e.getMessage());
+        }
+    }
+
+
 }
+

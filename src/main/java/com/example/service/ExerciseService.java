@@ -24,7 +24,7 @@ public class ExerciseService {
     public void saveExercise(ExerciseDTO exerciseDTO){
         ExerciseEntity exerciseEntity = new ExerciseEntity();
         exerciseEntity.setExname(exerciseDTO.getExname());
-        exerciseEntity.setExicon(exerciseDTO.getExicon());
+        exerciseEntity.setExicon(String.valueOf(exerciseDTO.getExicon()));
         exerciseEntity.setExcontent(exerciseDTO.getExcontent());
         exerciseEntity.setExcal(exerciseDTO.getExcal());
         exerciseEntity.setExtime(exerciseDTO.getExtime());
@@ -39,7 +39,7 @@ public class ExerciseService {
 
         if (exercise != null) {
             exercise.setExname(exerciseDTO.getExname());
-            exercise.setExicon(exerciseDTO.getExicon());
+            exercise.setExicon(String.valueOf(exerciseDTO.getExicon()));
             exercise.setExcontent(exerciseDTO.getExcontent());
             exercise.setExcal(exerciseDTO.getExcal());
             exercise.setExtime(exerciseDTO.getExtime());

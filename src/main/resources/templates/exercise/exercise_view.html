@@ -41,6 +41,14 @@
                     <td class="header">추천 시간</td>
                     <td class="content"><th:block th:text="${exercise.extime}"> </th:block></td>
                 </tr>
+                <tr>
+                    <td class="header">운동 아이콘</td>
+                    <td class="content">
+                        <img th:src="@{'/' + ${imagePath}}" alt="운동 아이콘">
+
+
+                    </td>
+                </tr>
 
 
             </table>

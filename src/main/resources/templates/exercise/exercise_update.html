@@ -18,10 +18,9 @@
 
                             <div class="title_wrap"><h2 class="title_30 search_form__row">운동 정보 수정</h2></div>
 
-                            <form action="/exerciseUpdate" method="post" th:object="${exercise}">
+                            <form action="/exerciseUpdate" method="post" th:object="${exercise}" enctype="multipart/form-data">
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                                 <input type="hidden" name="eno" th:value="${exercise.eno}">
-
                                 <div class="mb-3">
                                     <span class="input-group-text">작성자</span>
                                     <input type="text" name="email" class="form-control" aria-label="category" aria-describedby="basic-addon3" th:field="${exercise.email}">
@@ -42,7 +41,11 @@
                                     <span class="input-group-text">추천 시간</span>
                                     <input type="text" name="length" class="form-control" aria-label="title" aria-describedby="basic-addon1" th:field="${exercise.extime}">
                                 </div>
+                                <div class="mb-3">
+                                    <span class="input-group-text">이미지</span>
+                                    <input type="file" class="form-control" name="exiconFile">
 
+                                </div>
 
                                 <button type="submit" class="btn btn-secondary" style="margin-right: 30px; width: 100px">수정</button>
                                 <button type="button" class="btn btn-secondary" style="width: 100px"
