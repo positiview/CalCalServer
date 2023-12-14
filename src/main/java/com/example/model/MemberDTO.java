@@ -21,4 +21,6 @@ public class MemberDTO {
     private Integer age;
 
     private String gender;
+
+    private Integer goalcal;
 }
