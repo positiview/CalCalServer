@@ -17,7 +17,7 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        width: 100%;
+        width: 300px;
         height: 300px;
         margin: 10px;
         flex-shrink: 0;
@@ -26,11 +26,12 @@
 
 
 <div layout:fragment="content" class="m-3" style="">
+    <h4 th:text="'총 회원 수: ' + ${totalMembers}+'명'"></h4>
     <div class="chart-container">
         <div class="chart">
-            <canvas id="doughnut-chart" style="width: 300px; max-width: 300px; max-height: 300px; display: inline-block;" width="300" height="300"></canvas>
-            <canvas id="doughnut-chart1" style="width: 300px; max-width: 300px; max-height: 300px; display: inline-block;" width="300" height="300"></canvas>
-            <canvas id="doughnut-chart2" style="width: 300px; max-width: 300px; max-height: 300px; display: inline-block;" width="300" height="300"></canvas>
+            <canvas id="doughnut-chart" style="width: 350px; max-width: 300px; max-height: 400px; display: inline-block;" width="400" height="400"></canvas>
+            <canvas id="doughnut-chart1" style="width: 350px; max-width: 300px; max-height: 400px; display: inline-block;" width="400" height="400"></canvas>
+            <canvas id="doughnut-chart2" style="width: 350px; max-width: 300px; max-height: 400px; display: inline-block;" width="400" height="400"></canvas>
 
         </div>
         <div class="chart line-chart" style=" width:1000px; max-width:1000px; max-height: 1000px; margin-top: 50px;">
@@ -41,6 +42,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous" type="text/javascript"></script>
     <!-- chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var loginCounts = /*[[${loginCounts}]]*/ 'default';
+        /*]]>*/
+    </script>
     <script th:inline="javascript">
         /*<![CDATA[*/
         var genderCounts = /*[[${genderCounts}]]*/ 'default';
@@ -54,9 +60,9 @@
         new Chart(document.getElementById("doughnut-chart"), {
             type: 'doughnut',
             data: {
-                labels: Object.keys(genderCounts),
+                labels: Object.keys(loginCounts),
                 datasets: [{
-                    data: Object.values(genderCounts),
+                    data: Object.values(loginCounts),
                     backgroundColor: ["#FF6384", "#36A2EB"]
                 }]
             },
@@ -65,7 +71,13 @@
                 maintainAspectRatio: false,
                 title: {
                     display: true,
-                    text: '성별 수치'
+                    text: '접속 인원',
+                    fontSize: 20
+                },
+                legend: {
+                    labels: {
+                        fontSize: 15  // 원하는 글꼴 크기로 설정
+                    }
                 }
             }
         });
@@ -84,7 +96,13 @@
                 maintainAspectRatio: false,
                 title: {
                     display: true,
-                    text: '성별 수치'
+                    text: '성별 수치',
+                    fontSize: 20
+                },
+                legend: {
+                    labels: {
+                        fontSize: 15  // 원하는 글꼴 크기로 설정
+                    }
                 }
             }
         });
@@ -103,7 +121,13 @@
                 maintainAspectRatio: false,
                 title: {
                     display: true,
-                    text: '연령대 분포'
+                    text: '연령대 분포',
+                    fontSize: 20
+                },
+                legend: {
+                    labels: {
+                        fontSize: 15  // 원하는 글꼴 크기로 설정
+                    }
                 }
             }
         });

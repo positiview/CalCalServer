@@ -4,6 +4,7 @@ package com.example.service;
 import com.example.entity.MemberEntity;
 import com.example.model.MemberDTO;
 import com.example.repository.MemberRepository;
+import com.example.repository.RouteRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,13 +19,31 @@ import java.util.TreeMap;
 public class ChartService {
 
     private MemberRepository memberRepository;
+    private RouteRecordRepository routeRecordRepository;
 
     @Autowired
-    public ChartService(MemberRepository memberRepository) {
+    public ChartService(MemberRepository memberRepository, RouteRecordRepository routeRecordRepository) {
         this.memberRepository = memberRepository;
+        this.routeRecordRepository = routeRecordRepository;
     }
 
-
+    public Map<String, Long> getLoginCounts() {
+        List<MemberEntity> members = memberRepository.findAll();
+        long countLoggedIn = 0;
+        long countNotLoggedIn = 0;
+        for (MemberEntity member : members) {
+            String email = member.getEmail();
+            if (routeRecordRepository.existsByEmail(email)) {
+                countLoggedIn++;
+            } else {
+                countNotLoggedIn++;
+            }
+        }
+        Map<String, Long> loginMap = new HashMap<>();
+        loginMap.put("접속한 회원", countLoggedIn);
+        loginMap.put("접속하지 않은 회원", countNotLoggedIn);
+        return loginMap;
+    }
 
     public Map<String, Long> getGenderCounts() {
         List<Object[]> genderCounts = memberRepository.countByGender();
