@@ -2,9 +2,12 @@ package com.example.service;
 
 
 import com.example.entity.ExerciseEntity;
+import com.example.entity.MemberEntity;
 import com.example.model.ExerciseDTO;
 import com.example.repository.ExerciseRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,7 +24,7 @@ public class ExerciseService {
     public void saveExercise(ExerciseDTO exerciseDTO){
         ExerciseEntity exerciseEntity = new ExerciseEntity();
         exerciseEntity.setExname(exerciseDTO.getExname());
-        exerciseEntity.setExicon(exerciseDTO.getExicon());
+        exerciseEntity.setExicon(String.valueOf(exerciseDTO.getExicon()));
         exerciseEntity.setExcontent(exerciseDTO.getExcontent());
         exerciseEntity.setExcal(exerciseDTO.getExcal());
         exerciseEntity.setExtime(exerciseDTO.getExtime());
@@ -36,7 +39,7 @@ public class ExerciseService {
 
         if (exercise != null) {
             exercise.setExname(exerciseDTO.getExname());
-            exercise.setExicon(exerciseDTO.getExicon());
+            exercise.setExicon(String.valueOf(exerciseDTO.getExicon()));
             exercise.setExcontent(exerciseDTO.getExcontent());
             exercise.setExcal(exerciseDTO.getExcal());
             exercise.setExtime(exerciseDTO.getExtime());
@@ -94,5 +97,12 @@ public class ExerciseService {
         }
 
         return exerciseDTOs; // 리스트를 반환합니다.
+    }
+    public Page<ExerciseEntity> getexnameList(String keyword, Pageable pageable) {
+        return exerciseRepository.getByexnameLike(keyword, pageable);
+    }
+
+    public Page<ExerciseEntity> getExerciseList(Pageable pageable) {
+        return exerciseRepository.findAll(pageable);
     }
 }

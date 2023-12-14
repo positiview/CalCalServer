@@ -18,7 +18,7 @@
 
                             <div class="title_wrap"><h2 class="title_30 search_form__row">회원 정보 수정</h2></div>
 
-                            <form action="/userUpdate" method="post" th:object="${memberDTO}">
+                            <form action="/userUpdate" method="post" th:object="${member}">
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                                 <input type="hidden" name="mno" th:value="${member.mno}">
 
