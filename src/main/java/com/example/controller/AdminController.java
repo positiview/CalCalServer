@@ -74,14 +74,13 @@ public class AdminController {
         return "redirect:/adminLogin";
     }
 
-    @GetMapping("/auth/adminLogin")
+    @PostMapping("/adminLogin") // GET에서 POST로 변경
     public String login(@RequestParam(value = "error", required = false) String error,
                         @RequestParam(value = "exception", required = false) String exception, Model model) {
         model.addAttribute("error", error);
         model.addAttribute("exception", exception);
 
         return "member/login";
-
     }
 
 

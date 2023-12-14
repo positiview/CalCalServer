@@ -10,7 +10,6 @@ public class ExerciseDTO {
 
     private String exname;
 
-    @JsonIgnore
     private String exicon;
 
     private String excontent;

@@ -14,6 +14,7 @@ public interface RouteRecordRepository extends JpaRepository<RouteRecord,Long> {
 
    List<RouteRecord> findAllByEmail(String email);
 
+   boolean existsByEmail(String email);
 
 
 }

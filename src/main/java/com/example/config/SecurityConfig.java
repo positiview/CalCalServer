@@ -24,34 +24,25 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // 페이지 권한 설정, 로그인 페이지 설정, 로그아웃 메소드 등에 대한 설정을 작성
         http
-                .csrf((csrfConfig) ->
-                        csrfConfig.disable()
+                .csrf((csrfConfig) -> csrfConfig.disable())
+                .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
+                        .requestMatchers("/adminLogin", "/css/**", "/img/**").permitAll()
+                        .anyRequest().authenticated()
                 )
-                .authorizeHttpRequests((authorizeRequests) ->
-                        authorizeRequests
-                                .anyRequest().permitAll()
-                            /*.requestMatchers(antMatcher("/css/**")).permitAll()
-                            .requestMatchers(antMatcher("/img/**")).permitAll()
-                            .requestMatchers(antMatcher("/adminLogin")).permitAll()
-                            .requestMatchers(antMatcher("/register")).permitAll()
-                            .requestMatchers(antMatcher("/auth/**")).permitAll()
-                            .anyRequest().authenticated()*/
+                .formLogin((formLogin) -> formLogin
+                        .loginPage("/adminLogin")
+                        .usernameParameter("loginId")
+                        .passwordParameter("password")
+                        .loginProcessingUrl("/adminLogin")
+                        .failureHandler(simpleUrlAuthenticationFailureHandler())
+                        .defaultSuccessUrl("/", true)
                 )
-                .formLogin((formLogin) ->
-                        formLogin
-                                .loginPage("/adminLogin")
-                                .usernameParameter("loginId")
-                                .passwordParameter("password")
-                                .loginProcessingUrl("/adminLogin")
-                                .failureHandler(simpleUrlAuthenticationFailureHandler())
-                                .defaultSuccessUrl("/", true)
-                )
-                .logout((logoutConfig) ->
-                        logoutConfig
-                                .logoutUrl("/adminLogout")
-                                .logoutSuccessUrl("/adminLogin")
+                .logout((logoutConfig) -> logoutConfig
+                        .logoutUrl("/adminLogout")
+                        .logoutSuccessUrl("/adminLogin")
                 )
                 .userDetailsService(adminMemberService);
+
         ;
 
         return http.build();
