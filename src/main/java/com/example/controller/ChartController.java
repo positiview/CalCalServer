@@ -54,9 +54,10 @@ public class ChartController {
 
     /*@PostMapping("/dashboardRequest")
     @ResponseBody
-    public ResponseEntity<String> getChart(Model model){
+    public ResponseEntity<String> getChart(@Requestbody String button, Model model){
 
-    }
-*/
+
+        return new ResponseEntity<>("success")
+    }*/
 
 }
