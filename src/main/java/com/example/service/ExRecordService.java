@@ -1,12 +1,10 @@
 package com.example.service;
 
 import com.example.entity.ExRecord;
+import com.example.entity.ExerciseEntity;
 import com.example.entity.RouteAndTime;
 import com.example.entity.RouteRecord;
-import com.example.model.CalDTO;
-import com.example.model.ExRecordDTO;
-import com.example.model.RouteAndTimeDTO;
-import com.example.model.RouteRecordDTO;
+import com.example.model.*;
 import com.example.repository.ExRecordRepository;
 import com.example.repository.RouteRecordRepository;
 import lombok.AllArgsConstructor;
@@ -38,5 +36,22 @@ public class ExRecordService {
         ExRecord savedEntity = exRecordRepository.save(er);
 
         log.info("ExRecord was successfully saved: " + savedEntity);
+    }
+
+    public ExRecordDTO getExrecord(String email) {
+        ExRecord er = (ExRecord) exRecordRepository.findAllByEmail(email);
+
+        if (er != null) {
+            ExRecordDTO exrecordDTO = new ExRecordDTO();
+
+            exrecordDTO.setUserEmail(er.getEmail());
+            exrecordDTO.setExname(er.getExname());
+            exrecordDTO.setGoalCalorie(er.getGoalCalorie());
+            exrecordDTO.setCalorie(er.getCalorie());
+
+            return exrecordDTO;
+        } else {
+            return null;
+        }
     }
 }
