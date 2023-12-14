@@ -52,12 +52,12 @@ public class AdminController {
 
     @GetMapping("/adminLogin")
     public String login() {
-        return "/member/login";
+        return "member/login";
     }
 
     @GetMapping("/register")
     public String register() {
-        return "/member/register";
+        return "member/register";
     }
 
     @PostMapping("/register")
@@ -68,20 +68,19 @@ public class AdminController {
             adminMemberService.saveMember(adminMember);
         } catch (IllegalStateException e) {
             model.addAttribute("errorMessage", e.getMessage());
-            return "/member/register";
+            return "member/register";
         }
 
         return "redirect:/adminLogin";
     }
 
-    @GetMapping("/auth/adminLogin")
+    @PostMapping("/adminLogin") // GET에서 POST로 변경
     public String login(@RequestParam(value = "error", required = false) String error,
                         @RequestParam(value = "exception", required = false) String exception, Model model) {
         model.addAttribute("error", error);
         model.addAttribute("exception", exception);
 
-        return "/member/login";
-
+        return "member/login";
     }
 
 
@@ -106,7 +105,7 @@ public class AdminController {
         model.addAttribute("searchType", searchType);
         model.addAttribute("keyword", keyword);
 
-        return "/user/user";
+        return "user/user";
     }
 
     @GetMapping("/userView")
@@ -173,7 +172,7 @@ public class AdminController {
         model.addAttribute("searchType", searchType);
         model.addAttribute("keyword", keyword);
 
-        return "/exercise/exercise";
+        return "exercise/exercise";
     }
 
     @GetMapping("/exerciseView")
@@ -244,7 +243,7 @@ public class AdminController {
         // 이메일을 모델에 추가합니다.
         model.addAttribute("email", currentUserName);
 
-        return "/exercise/exercise_register";
+        return "exercise/exercise_register";
     }
 
     @PostMapping("/exerciseRegister")
