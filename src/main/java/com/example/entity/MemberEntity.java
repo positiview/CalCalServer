@@ -25,4 +25,5 @@ public class MemberEntity {
     private Integer length;
     private Integer age;
     private String gender;
+    private Integer goalcal;
 }

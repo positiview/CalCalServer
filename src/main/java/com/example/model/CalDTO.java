@@ -10,6 +10,8 @@ public class CalDTO {
 
     private String courseName;
 
+    private String exname;
+
     private Double goalCalorie;
 
     private Double calorie;

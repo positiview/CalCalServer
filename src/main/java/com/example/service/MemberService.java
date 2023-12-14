@@ -32,6 +32,7 @@ public class MemberService {
         memberEntity.setLength(memberDTO.getLength());
         memberEntity.setWeight(memberDTO.getWeight());
         memberEntity.setAge(memberDTO.getAge());
+        memberEntity.setGoalcal(memberDTO.getGoalcal());
 
 
         memberRepository.save(memberEntity);
@@ -46,6 +47,7 @@ public class MemberService {
             member.setLength(memberDTO.getLength());
             member.setWeight(memberDTO.getWeight());
             member.setAge(memberDTO.getAge());
+            member.setGoalcal(memberDTO.getGoalcal());
             memberRepository.save(member);
             return true;
         } else {
@@ -82,6 +84,7 @@ public class MemberService {
             memberDTO.setLength(member.getLength());
             memberDTO.setWeight(member.getWeight());
             memberDTO.setAge(member.getAge());
+            memberDTO.setGoalcal(member.getGoalcal());
 
             return memberDTO;
         } else {
