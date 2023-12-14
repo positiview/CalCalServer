@@ -1,12 +1,15 @@
 package com.example.controller;
 
 import com.example.service.ChartService;
-import com.example.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 @Controller
@@ -24,8 +27,25 @@ public class ChartController {
         model.addAttribute("genderCounts", genderCounts);
         Map<String, Long> ageGroupCounts = chartService.getAgeGroupCounts();
         model.addAttribute("ageGroupCounts", ageGroupCounts);
-        return "/dashboard/dashboard";
+
+        // 여자 평균 1주일간 총 칼로리
+        /*Map<LocalDate,Integer> avgCalorieWoman = chartService.getWeekAvgCalorieByGender("female");
+        model.addAttribute("avgCalorieWoman",avgCalorieWoman);
+        // 남자 평균 1주일간 총 칼로리
+        Map<LocalDate,Integer> avgCalorieMan = chartService.getWeekAvgCalorieByGender("male");
+        model.addAttribute("avgCalorieMan",avgCalorieMan);*/
+
+        // 나이별 평균 1주일간 총 칼로리
+//        Map<LocalDate,Integer> avgCalorieByAge = chartService.getWeekAvgeCalorieByAge();
+
+        return "dashboard/dashboard";
     }
 
+    /*@PostMapping("/dashboardRequest")
+    @ResponseBody
+    public ResponseEntity<String> getChart(Model model){
+
+    }
+*/
 
 }

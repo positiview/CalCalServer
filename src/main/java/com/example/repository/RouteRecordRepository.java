@@ -16,9 +16,4 @@ public interface RouteRecordRepository extends JpaRepository<RouteRecord,Long> {
 
 
 
-
-
-
-
-
 }
