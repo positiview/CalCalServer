@@ -111,72 +111,72 @@ public class RouteRecordService {
 
     }
 
-
-
-    // 오늘 날짜 총 칼로리 소모량 데이터
-    public List<CalDTO> getTodayRecord(String userEmail) {
-        List<CalDTO> getTodayList = new ArrayList<>();
-
-        List<RouteRecord> records = routeRecordRepository.findAllByEmail(userEmail);
-        records.sort(Comparator.comparing(RouteRecord::getRegDate).reversed());
-
-        int count = 0;
-        LocalDate today = LocalDate.now();
-        for (RouteRecord record : records) {
-            LocalDate currentDate = record.getRegDate().toLocalDate();
-            if (!currentDate.isEqual(today.minusDays(count))) {
-                break;
-            }
-            count++;
-        }
-        List<RouteRecord> filteredRecords = records.stream()
-                .filter(record -> {
-                    LocalDate regDate = record.getRegDate().toLocalDate();
-                    return regDate.isEqual(today);
-                })
-                .toList();
-        log.info("Long countDays >> "+ count);
-
-        for(RouteRecord rr : filteredRecords){
-            CalDTO calDTO = new CalDTO();
-
-            Hibernate.initialize(rr.getRatList());
-
-            List<RouteAndTime> ratList = rr.getRatList();
-            double longitude = 0;
-            double latitude = 0;
-            if (!ratList.isEmpty()) {
-                RouteAndTime firstItem = ratList.get(0);
-                longitude = firstItem.getLongitude();
-                latitude = firstItem.getLatitude();
-                // 이제 longitude와 latitude를 사용할 수 있습니다.
-            } else {
-                // 리스트가 비어있을 때의 처리
-            }
-            int lastIndex = ratList.size() - 1;
-
-            if (lastIndex >= 0) {
-                RouteAndTime lastRat = ratList.get(lastIndex);
-                calDTO.setTime(lastRat.getTime());
-            }else{
-                // 오늘 리스트가 없음
-            }
-            calDTO.setRecordId(rr.getRid().intValue());
-            calDTO.setLongitude(longitude);
-            calDTO.setLatitude(latitude);
-            calDTO.setCourseName(rr.getCourseName());
-            calDTO.setGoalCalorie(rr.getGoalCalorie());
-            calDTO.setCalorie(rr.getCalorie());
-            calDTO.setDistance(rr.getDistance());
-            calDTO.setRegDate(rr.getRegDate());
-            calDTO.setCountDays(count);
-            getTodayList.add(calDTO);
-            log.info("CalDTO: " + calDTO);
-        }
-        log.info("getTodayList: " + getTodayList);
-
-        return  getTodayList;
-    }
+//
+//
+//    // 오늘 날짜 총 칼로리 소모량 데이터
+//    public List<CalDTO> getTodayRecord(String userEmail) {
+//        List<CalDTO> getTodayList = new ArrayList<>();
+//
+//        List<RouteRecord> records = routeRecordRepository.findAllByEmail(userEmail);
+//        records.sort(Comparator.comparing(RouteRecord::getRegDate).reversed());
+//
+//        int count = 0;
+//        LocalDate today = LocalDate.now();
+//        for (RouteRecord record : records) {
+//            LocalDate currentDate = record.getRegDate().toLocalDate();
+//            if (!currentDate.isEqual(today.minusDays(count))) {
+//                break;
+//            }
+//            count++;
+//        }
+//        List<RouteRecord> filteredRecords = records.stream()
+//                .filter(record -> {
+//                    LocalDate regDate = record.getRegDate().toLocalDate();
+//                    return regDate.isEqual(today);
+//                })
+//                .toList();
+//        log.info("Long countDays >> "+ count);
+//
+//        for(RouteRecord rr : filteredRecords){
+//            CalDTO calDTO = new CalDTO();
+//
+//            Hibernate.initialize(rr.getRatList());
+//
+//            List<RouteAndTime> ratList = rr.getRatList();
+//            double longitude = 0;
+//            double latitude = 0;
+//            if (!ratList.isEmpty()) {
+//                RouteAndTime firstItem = ratList.get(0);
+//                longitude = firstItem.getLongitude();
+//                latitude = firstItem.getLatitude();
+//                // 이제 longitude와 latitude를 사용할 수 있습니다.
+//            } else {
+//                // 리스트가 비어있을 때의 처리
+//            }
+//            int lastIndex = ratList.size() - 1;
+//
+//            if (lastIndex >= 0) {
+//                RouteAndTime lastRat = ratList.get(lastIndex);
+//                calDTO.setTime(lastRat.getTime());
+//            }else{
+//                // 오늘 리스트가 없음
+//            }
+//            calDTO.setRecordId(rr.getRid().intValue());
+//            calDTO.setLongitude(longitude);
+//            calDTO.setLatitude(latitude);
+//            calDTO.setCourseName(rr.getCourseName());
+//            calDTO.setGoalCalorie(rr.getGoalCalorie());
+//            calDTO.setCalorie(rr.getCalorie());
+//            calDTO.setDistance(rr.getDistance());
+//            calDTO.setRegDate(rr.getRegDate());
+//            calDTO.setCountDays(count);
+//            getTodayList.add(calDTO);
+//            log.info("CalDTO: " + calDTO);
+//        }
+//        log.info("getTodayList: " + getTodayList);
+//
+//        return  getTodayList;
+//    }
 
 
     // 선택한 날짜 총 칼로리 소모량 데이터

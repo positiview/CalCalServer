@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.entity.ExRecord;
 import com.example.entity.RouteAndTime;
 import com.example.entity.RouteRecord;
 import com.example.model.CalDTO;
@@ -25,18 +26,43 @@ import java.util.stream.Collectors;
 public class CalService {
 
     private RouteRecordRepository routeRecordRepository;
+
     private ExRecordRepository exRecordRepository;
 
 
 
+    public List<CalDTO> getExRecord(String email) {
+        List<ExRecord> erList = exRecordRepository.findAllByEmail(email);
+        List<CalDTO> calList = new ArrayList<>();
 
-//    Map<String, ExRecordDTO> exRecordMap = exRecordService.getAllExRecords()
-//            .stream()
-//            .collect(Collectors.toMap(ExRecordDTO::getUserEmail, Function.identity()));
-//
-//    Map<String, RouteRecordDTO> routeRecordMap = routeRecordService.getAllRouteRecords()
-//            .stream()
-//            .collect(Collectors.toMap(RouteRecordDTO::getUserEmail, Function.identity()));
+        for (ExRecord er : erList) {
+
+            CalDTO calDTO = new CalDTO();
+            calDTO.setExname(er.getExname());
+            calDTO.setGoalCalorie(er.getGoalCalorie());
+            calDTO.setCalorie(er.getCalorie());
+            calDTO.setExTime(er.getExTime());
+            calDTO.setRegDate(er.getRegDate());
+            calList.add(calDTO);
+        }
+        return calList;
+    }
+
+
+
+
+    public Map<String, List<CalDTO>> todayCalories(String userEmail){
+
+        Map<String, List<CalDTO>> todayMap = new HashMap<>();
+        todayMap.put("jogging", getTodayRecord(userEmail));
+
+        List<CalDTO> getExRecordList = getExRecord(userEmail);
+
+        todayMap.put("etc", getExRecordList);
+
+        return todayMap;
+    }
+
 
 
 

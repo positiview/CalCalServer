@@ -5,6 +5,7 @@ import com.example.entity.RouteRecord;
 import com.example.model.CalDTO;
 import com.example.model.RouteAndTimeDTO;
 import com.example.model.RouteRecordDTO;
+import com.example.service.CalService;
 import com.example.service.RouteRecordService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/record")
@@ -21,6 +23,7 @@ import java.util.List;
 public class RecordController {
 
     private RouteRecordService routeRecordService;
+    private CalService calService;
 
     @PostMapping("/save")
     public ResponseEntity<String> saveRecord(@RequestBody List<RouteAndTimeDTO> ratList,
@@ -45,10 +48,10 @@ public class RecordController {
         return new ResponseEntity<>(myRouteHistories,HttpStatus.OK);
     }
 
-    /*@GetMapping("/today")
-    public  ResponseEntity<List<CalDTO>> getToday(@RequestParam String userEmail){
+    @GetMapping("/today")
+    public  ResponseEntity<Map<String, List<CalDTO>>> getToday(@RequestParam String userEmail){
         log.info("getToday 요청 들어옴");
-        List<CalDTO> todayRecords = routeRecordService.getTodayRecord(userEmail);
+        Map<String, List<CalDTO>> todayRecords = calService.todayCalories(userEmail);
         return new ResponseEntity<>(todayRecords,HttpStatus.OK);
     }*/
 }
