@@ -29,8 +29,6 @@ public class CalService {
 
     private RouteRecordRepository routeRecordRepository;
     private ExRecordRepository exRecordRepository;
-    private final ExRecordService exRecordService;
-    private final CalService routeRecordService;
 
 
 

@@ -3,6 +3,7 @@ package com.example.service;
 
 import com.example.entity.MemberEntity;
 import com.example.entity.RouteRecord;
+import com.example.repository.ExRecordRepository;
 import com.example.repository.MemberRepository;
 import com.example.repository.RouteRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,30 +17,35 @@ public class ChartService {
 
     private MemberRepository memberRepository;
     private RouteRecordRepository routeRecordRepository;
+    private ExRecordRepository exRecordRepository;
 
     @Autowired
-    public ChartService(MemberRepository memberRepository, RouteRecordRepository routeRecordRepository) {
+    public ChartService(MemberRepository memberRepository, RouteRecordRepository routeRecordRepository, ExRecordRepository exRecordRepository) {
         this.memberRepository = memberRepository;
         this.routeRecordRepository = routeRecordRepository;
+        this.exRecordRepository = exRecordRepository; // ExRecordRepository 주입
     }
 
     public Map<String, Long> getLoginCounts() {
         List<MemberEntity> members = memberRepository.findAll();
-        long countLoggedIn = 0;
-        long countNotLoggedIn = 0;
+
+        Set<String> loggedInMembers = new HashSet<>();
         for (MemberEntity member : members) {
             String email = member.getEmail();
-            if (routeRecordRepository.existsByEmail(email)) {
-                countLoggedIn++;
-            } else {
-                countNotLoggedIn++;
+            if (routeRecordRepository.existsByEmail(email) || exRecordRepository.existsByEmail(email)) {
+                loggedInMembers.add(email); // 이메일이 RouteRecord 혹은 ExRecord에 있으면 Set에 추가
             }
         }
+
+        long countLoggedIn = loggedInMembers.size(); // 접속한 회원 수는 Set의 크기
+        long countNotLoggedIn = members.size() - countLoggedIn; // 접속하지 않은 회원 수는 전체 회원 수에서 접속한 회원 수를 뺀 값
+
         Map<String, Long> loginMap = new HashMap<>();
         loginMap.put("접속한 회원", countLoggedIn);
         loginMap.put("접속하지 않은 회원", countNotLoggedIn);
         return loginMap;
     }
+
 
     public Map<String, Long> getGenderCounts() {
         List<Object[]> genderCounts = memberRepository.countByGender();
