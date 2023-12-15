@@ -50,7 +50,7 @@ public class ExerciseController {
     @GetMapping("/getExerciseData")
     public ResponseEntity<ExerciseDTO> getExerciseData(@RequestParam String exname) {
         ExerciseDTO exerciseDTO = exerciseService.getExerciseData(exname);
-
+        log.info("exerciseDTO : "+exerciseDTO);
         if (exerciseDTO != null) {
             return new ResponseEntity<>(exerciseDTO, HttpStatus.OK);
         } else {

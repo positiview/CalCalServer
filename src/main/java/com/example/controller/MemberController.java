@@ -53,7 +53,7 @@ public class MemberController {
 
         if (updateSuccessful) {
             return new ResponseEntity<>("Success", HttpStatus.OK);
-        } else {
+        }else{
             return new ResponseEntity<>("Failure", HttpStatus.BAD_REQUEST);
         }
     }
@@ -65,6 +65,18 @@ public class MemberController {
             return new ResponseEntity<>(memberDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping("/updateGoalCal")
+    public ResponseEntity<String> updateGoalCal(@RequestParam String email, @RequestParam int goalcal){
+
+        boolean updateSuccessful = memberService.updateGoalCal(email,goalcal);
+
+        if (updateSuccessful) {
+            return new ResponseEntity<>("일일 목표 칼로리 수정 완료",HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("멤버 정보가 없습니다",HttpStatus.BAD_REQUEST);
         }
     }
 }

@@ -17,9 +17,4 @@ public interface RouteRecordRepository extends JpaRepository<RouteRecord,Long> {
    boolean existsByEmail(String email);
 
 
-
-
-
-
-
 }
