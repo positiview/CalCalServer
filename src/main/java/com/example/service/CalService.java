@@ -2,7 +2,11 @@ package com.example.service;
 
 import com.example.entity.RouteAndTime;
 import com.example.entity.RouteRecord;
-import com.example.model.*;
+import com.example.model.CalDTO;
+import com.example.model.ExRecordDTO;
+import com.example.model.RouteAndTimeDTO;
+import com.example.model.RouteRecordDTO;
+import com.example.repository.ExRecordRepository;
 import com.example.repository.RouteRecordRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -11,109 +15,33 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 @Log4j2
-public class RouteRecordService {
+public class CalService {
 
     private RouteRecordRepository routeRecordRepository;
+    private ExRecordRepository exRecordRepository;
     private final ExRecordService exRecordService;
-    private final RouteRecordService routeRecordService;
-
-    public void saveRouteRecord(List<RouteAndTimeDTO> list, String email, String cName, Double goalCalorie,Double calorie, String distance){
-        RouteRecord rr =new RouteRecord();
-        rr.setEmail(email);
-        rr.setCourseName(cName);
-        rr.setGoalCalorie(goalCalorie);
-        rr.setCalorie(calorie);
-        rr.setDistance(distance);
-
-        RouteRecord saveEntity = routeRecordRepository.save(rr);
-
-        for(RouteAndTimeDTO ratDTO : list){
-            RouteAndTime rat = new RouteAndTime();
-
-            rat.setLongitude(ratDTO.getLongitude());
-            rat.setLatitude(ratDTO.getLatitude());
-            rat.setTime(ratDTO.getRecordTime());
-            rat.setRouteRecord(saveEntity);
-            rr.getRatList().add(rat);
-        }
+    private final CalService routeRecordService;
 
 
-        routeRecordRepository.save(rr);
 
-    }
-    @Transactional(readOnly = true)
-    public List<RouteRecordDTO> getRouteRecord(String email){
-        List<RouteRecordDTO> getRecordDTOList = new ArrayList<>();
-        List<RouteRecord> recordList = routeRecordRepository.findAllByEmail(email);
-
-
-        for(RouteRecord rr : recordList){
-            RouteRecordDTO routeRecordDTO = new RouteRecordDTO();
-            List<RouteAndTimeDTO> ratList = new ArrayList<>();
-
-            Hibernate.initialize(rr.getRatList());
-
-            for(RouteAndTime rat : rr.getRatList()){
-                RouteAndTimeDTO ratDTO = new RouteAndTimeDTO();
-                ratDTO.setLatitude(rat.getLatitude());
-                ratDTO.setLongitude(rat.getLongitude());
-                ratDTO.setRecordTime(rat.getTime());
-                ratList.add(ratDTO);
-            }
-            routeRecordDTO.setRecordId(rr.getRid().intValue());
-            routeRecordDTO.setRatList(ratList);
-            routeRecordDTO.setCourseName(rr.getCourseName());
-            routeRecordDTO.setGoalCalorie(rr.getGoalCalorie());
-            routeRecordDTO.setCalorie(rr.getCalorie());
-            routeRecordDTO.setRegDate(rr.getRegDate());
-            routeRecordDTO.setDistance(rr.getDistance());
-            getRecordDTOList.add(routeRecordDTO);
-        }
-
-        return getRecordDTOList;
-
-    }
-
-    @Transactional(readOnly = true)
-    public List<RouteRecordDTO> getAllRouteRecords(){
-        List<RouteRecordDTO> getAllRecordDTOList = new ArrayList<>();
-        List<RouteRecord> recordList = routeRecordRepository.findAll();
-
-        for(RouteRecord rr : recordList){
-            RouteRecordDTO routeRecordDTO = new RouteRecordDTO();
-            List<RouteAndTimeDTO> ratList = new ArrayList<>();
-
-            Hibernate.initialize(rr.getRatList());
-
-            for(RouteAndTime rat : rr.getRatList()){
-                RouteAndTimeDTO ratDTO = new RouteAndTimeDTO();
-                ratDTO.setLatitude(rat.getLatitude());
-                ratDTO.setLongitude(rat.getLongitude());
-                ratDTO.setRecordTime(rat.getTime());
-                ratList.add(ratDTO);
-            }
-            routeRecordDTO.setRecordId(rr.getRid().intValue());
-            routeRecordDTO.setRatList(ratList);
-            routeRecordDTO.setCourseName(rr.getCourseName());
-            routeRecordDTO.setGoalCalorie(rr.getGoalCalorie());
-            routeRecordDTO.setCalorie(rr.getCalorie());
-            routeRecordDTO.setRegDate(rr.getRegDate());
-            routeRecordDTO.setDistance(rr.getDistance());
-            getAllRecordDTOList.add(routeRecordDTO);
-        }
-
-        return getAllRecordDTOList;
-
-    }
-
-
+//
+//    Map<String, ExRecordDTO> exRecordMap = exRecordService.getAllExRecords()
+//            .stream()
+//            .collect(Collectors.toMap(ExRecordDTO::getUserEmail, Function.identity()));
+//
+//    Map<String, RouteRecordDTO> routeRecordMap = routeRecordService.getAllRouteRecords()
+//            .stream()
+//            .collect(Collectors.toMap(RouteRecordDTO::getUserEmail, Function.identity()));
 
     // 오늘 날짜 총 칼로리 소모량 데이터
     public List<CalDTO> getTodayRecord(String userEmail) {
