@@ -18,5 +18,7 @@ public class ExRecordDTO {
 
     private Double calorie;
 
+    private Double exTime;
+
     private LocalDateTime regDate;
 }

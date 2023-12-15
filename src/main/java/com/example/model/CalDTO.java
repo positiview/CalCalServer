@@ -24,13 +24,14 @@ public class CalDTO {
 
     private Double time;
 
+    private Double exTime;
+
     private Double longitude;
 
     private Double latitude;
 
     private LocalDateTime regDate;
 
-    private LocalDateTime exRegDate;
 
     private int countDays;
 }
