@@ -32,12 +32,18 @@
             <canvas id="doughnut-chart" style="width: 350px; max-width: 300px; max-height: 400px; display: inline-block;" width="400" height="400"></canvas>
             <canvas id="doughnut-chart1" style="width: 350px; max-width: 300px; max-height: 400px; display: inline-block;" width="400" height="400"></canvas>
             <canvas id="doughnut-chart2" style="width: 350px; max-width: 300px; max-height: 400px; display: inline-block;" width="400" height="400"></canvas>
+        </div>
+        <div class="chart line-chart" style="width:1000px; max-width:1000px; max-height: 1000px; margin-top: 50px; display: flex; align-items: center;">
+            <!-- 나이별 성별 버튼 추가 -->
+            <div style="margin-right: 15px;">
+                <button id="ageButton" style="margin-bottom: 10px">나이별</button>
+                <button id="genderButton">성별</button>
+            </div>
 
+            <canvas id="line-chart" style="width:1000px; max-width: 1000px; max-height: 1000px;"></canvas>
         </div>
-        <div class="chart line-chart" style=" width:1000px; max-width:1000px; max-height: 1000px; margin-top: 50px;">
-            <canvas id="line-chart"  style=" width:1000px; max-width: 1000px; max-height: 1000px; "></canvas>
-        </div>
-</div>
+    </div>
+
     <!-- 제이쿼리 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous" type="text/javascript"></script>
     <!-- chart.js -->
