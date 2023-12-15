@@ -47,7 +47,7 @@ public class ChartController {
         model.addAttribute("avgCalorieMan",avgCalorieMan);*/
 
         // 나이별 평균 1주일간 총 칼로리
-//        Map<LocalDate,Integer> avgCalorieByAge = chartService.getWeekAvgeCalorieByAge();
+        // Map<LocalDate,Integer> avgCalorieByAge = chartService.getWeekAvgeCalorieByAge();
 
         return "dashboard/dashboard";
     }
