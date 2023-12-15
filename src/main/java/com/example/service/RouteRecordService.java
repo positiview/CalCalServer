@@ -21,8 +21,6 @@ import java.util.stream.Collectors;
 public class RouteRecordService {
 
     private RouteRecordRepository routeRecordRepository;
-    private final ExRecordService exRecordService;
-    private final RouteRecordService routeRecordService;
 
     public void saveRouteRecord(List<RouteAndTimeDTO> list, String email, String cName, Double goalCalorie,Double calorie, String distance){
         RouteRecord rr =new RouteRecord();

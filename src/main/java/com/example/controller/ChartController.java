@@ -3,15 +3,21 @@ package com.example.controller;
 import com.example.repository.MemberRepository;
 import com.example.service.ChartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 public class ChartController {
@@ -39,25 +45,27 @@ public class ChartController {
         Map<String, Long> ageGroupCounts = chartService.getAgeGroupCounts();
         model.addAttribute("ageGroupCounts", ageGroupCounts);
 
-        // 여자 평균 1주일간 총 칼로리
-        /*Map<LocalDate,Integer> avgCalorieWoman = chartService.getWeekAvgCalorieByGender("female");
-        model.addAttribute("avgCalorieWoman",avgCalorieWoman);
-        // 남자 평균 1주일간 총 칼로리
-        Map<LocalDate,Integer> avgCalorieMan = chartService.getWeekAvgCalorieByGender("male");
-        model.addAttribute("avgCalorieMan",avgCalorieMan);*/
 
-        // 나이별 평균 1주일간 총 칼로리
-        // Map<LocalDate,Integer> avgCalorieByAge = chartService.getWeekAvgeCalorieByAge();
+
+
 
         return "dashboard/dashboard";
     }
 
-    /*@PostMapping("/dashboardRequest")
+    @PostMapping("/dashboardRequest")
     @ResponseBody
-    public ResponseEntity<String> getChart(@Requestbody String button, Model model){
+    public ResponseEntity<List<Map<LocalDate,Integer>>> getChart(@RequestParam Boolean booleanValue){
+            List<Map<LocalDate,Integer>> resultList;
 
+        if(booleanValue){
+            // index 0 = 10살 미만 / 1 = 10대 / 2 = 20대 / 3 = 30대 / 4 = 40대 / 5 = 50살 이상
+            resultList = chartService.getWeekAvgCalorieByAge();
+        }else{
+            // index 0 = 여자 , index 1 = 남자
+            resultList = chartService.getWeekAvgCalorieByGender();
+        }
 
-        return new ResponseEntity<>("success")
-    }*/
+        return new ResponseEntity<>(resultList, HttpStatus.OK);
+    }
 
 }

@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -29,12 +26,10 @@ public class CalService {
 
     private RouteRecordRepository routeRecordRepository;
     private ExRecordRepository exRecordRepository;
-    private final ExRecordService exRecordService;
-    private final CalService routeRecordService;
 
 
 
-//
+
 //    Map<String, ExRecordDTO> exRecordMap = exRecordService.getAllExRecords()
 //            .stream()
 //            .collect(Collectors.toMap(ExRecordDTO::getUserEmail, Function.identity()));
@@ -42,6 +37,8 @@ public class CalService {
 //    Map<String, RouteRecordDTO> routeRecordMap = routeRecordService.getAllRouteRecords()
 //            .stream()
 //            .collect(Collectors.toMap(RouteRecordDTO::getUserEmail, Function.identity()));
+
+
 
     // 오늘 날짜 총 칼로리 소모량 데이터
     public List<CalDTO> getTodayRecord(String userEmail) {

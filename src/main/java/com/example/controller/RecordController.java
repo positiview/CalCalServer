@@ -45,10 +45,10 @@ public class RecordController {
         return new ResponseEntity<>(myRouteHistories,HttpStatus.OK);
     }
 
-    @GetMapping("/today")
+    /*@GetMapping("/today")
     public  ResponseEntity<List<CalDTO>> getToday(@RequestParam String userEmail){
         log.info("getToday 요청 들어옴");
         List<CalDTO> todayRecords = routeRecordService.getTodayRecord(userEmail);
         return new ResponseEntity<>(todayRecords,HttpStatus.OK);
-    }
+    }*/
 }
