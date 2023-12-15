@@ -54,4 +54,22 @@ public class ExRecordService {
             return null;
         }
     }
+
+    public List<ExRecordDTO> getAllExRecords() {
+        List<ExRecord> exRecords = exRecordRepository.findAll();
+        List<ExRecordDTO> exRecordDTOs = new ArrayList<>();
+
+        for (ExRecord er : exRecords) {
+            ExRecordDTO exRecordDTO = new ExRecordDTO();
+
+            exRecordDTO.setUserEmail(er.getEmail());
+            exRecordDTO.setExname(er.getExname());
+            exRecordDTO.setGoalCalorie(er.getGoalCalorie());
+            exRecordDTO.setCalorie(er.getCalorie());
+
+            exRecordDTOs.add(exRecordDTO);
+        }
+
+        return exRecordDTOs;
+    }
 }

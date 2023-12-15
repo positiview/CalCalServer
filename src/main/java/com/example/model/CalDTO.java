@@ -14,7 +14,11 @@ public class CalDTO {
 
     private Double goalCalorie;
 
+    private Double exGoalCalorie;
+
     private Double calorie;
+
+    private Double exCalorie;
 
     private String distance;
 
@@ -25,6 +29,8 @@ public class CalDTO {
     private Double latitude;
 
     private LocalDateTime regDate;
+
+    private LocalDateTime exRegDate;
 
     private int countDays;
 }
