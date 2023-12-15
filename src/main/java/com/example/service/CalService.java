@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.entity.ExRecord;
 import com.example.entity.RouteAndTime;
 import com.example.entity.RouteRecord;
 import com.example.model.CalDTO;
@@ -15,10 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -28,18 +26,45 @@ import java.util.stream.Collectors;
 public class CalService {
 
     private RouteRecordRepository routeRecordRepository;
+
     private ExRecordRepository exRecordRepository;
 
 
 
-//
-//    Map<String, ExRecordDTO> exRecordMap = exRecordService.getAllExRecords()
-//            .stream()
-//            .collect(Collectors.toMap(ExRecordDTO::getUserEmail, Function.identity()));
-//
-//    Map<String, RouteRecordDTO> routeRecordMap = routeRecordService.getAllRouteRecords()
-//            .stream()
-//            .collect(Collectors.toMap(RouteRecordDTO::getUserEmail, Function.identity()));
+    public List<CalDTO> getExRecord(String email) {
+        List<ExRecord> erList = exRecordRepository.findAllByEmail(email);
+        List<CalDTO> calList = new ArrayList<>();
+
+        for (ExRecord er : erList) {
+
+            CalDTO calDTO = new CalDTO();
+            calDTO.setExname(er.getExname());
+            calDTO.setGoalCalorie(er.getGoalCalorie());
+            calDTO.setCalorie(er.getCalorie());
+            calDTO.setExTime(er.getExTime());
+            calDTO.setRegDate(er.getRegDate());
+            calList.add(calDTO);
+        }
+        return calList;
+    }
+
+
+
+
+    public Map<String, List<CalDTO>> todayCalories(String userEmail){
+
+        Map<String, List<CalDTO>> todayMap = new HashMap<>();
+        todayMap.put("jogging", getTodayRecord(userEmail));
+
+        List<CalDTO> getExRecordList = getExRecord(userEmail);
+
+        todayMap.put("etc", getExRecordList);
+
+        return todayMap;
+    }
+
+
+
 
     // 오늘 날짜 총 칼로리 소모량 데이터
     public List<CalDTO> getTodayRecord(String userEmail) {

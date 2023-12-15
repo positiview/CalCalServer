@@ -30,6 +30,8 @@ public class ExRecord {
 
     private Double calorie;
 
+    private Double exTime;
+
 
     @CreatedDate
     @Convert(converter = CustomDateTimeConverter.class)

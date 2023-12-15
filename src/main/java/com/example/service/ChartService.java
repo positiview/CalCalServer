@@ -86,11 +86,22 @@ public class ChartService {
         return ageGroup;
     }
 
-   /* // 1주일간 성별 운동한 칼로리 소모량
-    public Map<LocalDate,Integer> getWeekAvgCalorieByGender(String gender) {
+    // 성별/요일별 총 칼로리 평균
+    public List<Map<LocalDate,Integer>> getWeekAvgCalorieByGender(){
+        List<Map<LocalDate,Integer>> result = new ArrayList<>();
+
+        Map<LocalDate,Integer> woman = getWeekAvgCal("woman");
+        Map<LocalDate,Integer> man = getWeekAvgCal("man");
+        result.add(woman);
+        result.add(man);
+        return result;
+    }
+
+    // 1주일간 성별 운동한 칼로리 소모량
+    public Map<LocalDate,Integer> getWeekAvgCal(String gender) {
         Map<LocalDate,Integer> result = new HashMap<>();
 
-        List<MemberEntity> genderMembers = memberRepository.findbyGender(gender);
+        List<MemberEntity> genderMembers = memberRepository.findByGender(gender);
         Double count = (double)genderMembers.size();
         Map<LocalDate,Double> totalCalories = totalCalorie(genderMembers);
 
@@ -136,30 +147,35 @@ public class ChartService {
 
         }
         return totalCalories;
-    }*/
-
-    /*public Map<LocalDate, Integer> getWeekAvgeCalorieByAge() {
-        List<MemberEntity> agerBaby = memberRepository.findbyAgeBetween(0,9);
-        Map<LocalDate,Integer> result = new HashMap<>();
-        Double count = (double)agerBaby.size();
-        Map<LocalDate,Double> totalCalories = totalCalorie(agerBaby);
-        calculateAvg(result,totalCalories,count);
+    }
 
 
-        List<MemberEntity> ager10s = memberRepository.findbyAgeBetween(10,19);
-        Map<LocalDate,Integer> result2 = new HashMap<>();
-        Double count2 = (double)ager10s.size();
-        Map<LocalDate,Double> totalCalories2 = totalCalorie(ager10s);
-        calculateAvg(result2,totalCalories2,count2);
+    public List<Map<LocalDate, Integer>> getWeekAvgCalorieByAgeRange(int startAge, int endAge) {
+        List<Map<LocalDate, Integer>> totalAvgCalories = new ArrayList<>();
+        Map<LocalDate, Integer> result = new HashMap<>();
 
-        List<MemberEntity> ager20s = memberRepository.findbyAgeBetween(20,29);
-        List<MemberEntity> ager30s = memberRepository.findbyAgeBetween(30,39);
-        List<MemberEntity> ager40s = memberRepository.findbyAgeBetween(40,49);
-        List<MemberEntity> agerEtc = memberRepository.findbyAgeBetween(40,49);
+        List<MemberEntity> members = memberRepository.findByAgeBetween(startAge, endAge);
+        Double count = (double) members.size();
+        Map<LocalDate, Double> totalCalories = totalCalorie(members);
+        Map<LocalDate, Integer> weekAvgCalorie = calculateAvg(result, totalCalories, count);
 
+        totalAvgCalories.add(weekAvgCalorie);
+        return totalAvgCalories;
+    }
 
-        return data;
-    }*/
+    // 나이/요일별 총 칼로리 평균
+    public List<Map<LocalDate, Integer>> getWeekAvgCalorieByAge() {
+        List<Map<LocalDate, Integer>> totalAvgCalories = new ArrayList<>();
+
+        totalAvgCalories.addAll(getWeekAvgCalorieByAgeRange(0, 9));
+        totalAvgCalories.addAll(getWeekAvgCalorieByAgeRange(10, 19));
+        totalAvgCalories.addAll(getWeekAvgCalorieByAgeRange(20, 29));
+        totalAvgCalories.addAll(getWeekAvgCalorieByAgeRange(30, 39));
+        totalAvgCalories.addAll(getWeekAvgCalorieByAgeRange(40, 49));
+        totalAvgCalories.addAll(getWeekAvgCalorieByAgeRange(50, 99));
+
+        return totalAvgCalories;
+    }
 
 
 }

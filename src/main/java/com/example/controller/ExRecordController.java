@@ -25,12 +25,13 @@ public class ExRecordController {
             @RequestParam String userEmail,
             @RequestParam String exname,
             @RequestParam Double goalCalorie,
-            @RequestParam Double calorie){
+            @RequestParam Double calorie,
+            @RequestParam Double exTime){
 
         log.info("email : " + userEmail);
 
 
-        exRecordService.saveExRecord(userEmail,exname,goalCalorie,calorie);
+        exRecordService.saveExRecord(userEmail,exname,goalCalorie,calorie,exTime);
 
         return new ResponseEntity<>(Collections.singletonList("Success"), HttpStatus.OK);
     }

@@ -1,21 +1,13 @@
 package com.example.service;
 
 import com.example.entity.ExRecord;
-import com.example.entity.ExerciseEntity;
-import com.example.entity.RouteAndTime;
-import com.example.entity.RouteRecord;
-import com.example.model.*;
+import com.example.model.ExRecordDTO;
 import com.example.repository.ExRecordRepository;
-import com.example.repository.RouteRecordRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -25,13 +17,14 @@ public class ExRecordService {
 
     private ExRecordRepository exRecordRepository;
 
-    public void saveExRecord(String userEmail, String exname, Double goalCalorie, Double calorie) {
+    public void saveExRecord(String userEmail, String exname, Double goalCalorie, Double calorie, Double exTime) {
         ExRecord er = new ExRecord();
 
         er.setEmail(userEmail);
         er.setExname(exname);
         er.setGoalCalorie(goalCalorie);
         er.setCalorie(calorie);
+        er.setExTime(exTime);
 
         ExRecord savedEntity = exRecordRepository.save(er);
 
@@ -48,6 +41,8 @@ public class ExRecordService {
             exrecordDTO.setExname(er.getExname());
             exrecordDTO.setGoalCalorie(er.getGoalCalorie());
             exrecordDTO.setCalorie(er.getCalorie());
+            exrecordDTO.setExTime(er.getExTime());
+            exrecordDTO.setRegDate(er.getRegDate());
 
             return exrecordDTO;
         } else {
@@ -66,6 +61,7 @@ public class ExRecordService {
             exRecordDTO.setExname(er.getExname());
             exRecordDTO.setGoalCalorie(er.getGoalCalorie());
             exRecordDTO.setCalorie(er.getCalorie());
+            exRecordDTO.setExTime(er.getExTime());
 
             exRecordDTOs.add(exRecordDTO);
         }
