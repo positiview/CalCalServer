@@ -106,4 +106,16 @@ public class MemberService {
     }
 
 
+    public boolean updateGoalCal(String email, int goalcal) {
+        MemberEntity member = memberRepository.findByEmail(email);
+
+        if (member != null) {
+            member.setGoalcal(goalcal);
+            memberRepository.save(member);
+            return true;
+        } else {
+            // 회원 정보가 없는 경우
+            return false;
+        }
+    }
 }
