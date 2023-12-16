@@ -11,7 +11,7 @@ public interface ExRecordRepository extends JpaRepository<ExRecord,Long> {
    List<ExRecord> findAllByEmail(String email);
 
 
-
+   boolean existsByEmail(String email);
 
 
 
