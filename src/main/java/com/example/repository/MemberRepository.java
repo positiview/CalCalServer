@@ -26,7 +26,7 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     @Query("SELECT m.age, COUNT(m) FROM MemberEntity m GROUP BY m.age")
     List<Object[]> countByAge();
 
-    List<MemberEntity> findByGender(String gender);
+    List<MemberEntity> findAllByGender(String gender);
 
     List<MemberEntity> findByAgeBetween(int i, int i1);
 }

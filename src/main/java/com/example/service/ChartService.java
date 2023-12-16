@@ -5,6 +5,7 @@ import com.example.entity.MemberEntity;
 import com.example.entity.RouteRecord;
 import com.example.repository.MemberRepository;
 import com.example.repository.RouteRecordRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Service
+@Log4j2
 public class ChartService {
 
     private MemberRepository memberRepository;
@@ -84,8 +86,8 @@ public class ChartService {
     public List<Map<LocalDate,Integer>> getWeekAvgCalorieByGender(){
         List<Map<LocalDate,Integer>> result = new ArrayList<>();
 
-        Map<LocalDate,Integer> woman = getWeekAvgCal("woman");
-        Map<LocalDate,Integer> man = getWeekAvgCal("man");
+        Map<LocalDate,Integer> woman = getWeekAvgCal("female");
+        Map<LocalDate,Integer> man = getWeekAvgCal("male");
         result.add(woman);
         result.add(man);
         return result;
@@ -94,8 +96,9 @@ public class ChartService {
     // 1주일간 성별 운동한 칼로리 소모량
     public Map<LocalDate,Integer> getWeekAvgCal(String gender) {
         Map<LocalDate,Integer> result = new HashMap<>();
-
-        List<MemberEntity> genderMembers = memberRepository.findByGender(gender);
+        log.info("gender >> "+gender);
+        List<MemberEntity> genderMembers = memberRepository.findAllByGender(gender);
+        log.info("genderMembers >> " + genderMembers);
         Double count = (double)genderMembers.size();
         Map<LocalDate,Double> totalCalories = totalCalorie(genderMembers);
 
@@ -130,6 +133,9 @@ public class ChartService {
 
             for (RouteRecord record : records) {
                 LocalDate recordDate = record.getRegDate().toLocalDate();
+
+                // 값이 없으면 0.0으로 초기화합니다.
+                totalCalories.putIfAbsent(recordDate, 0.0);
 
                 totalCalories.put(recordDate, totalCalories.get(recordDate) + record.getCalorie());
 

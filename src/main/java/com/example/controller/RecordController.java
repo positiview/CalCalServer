@@ -53,5 +53,5 @@ public class RecordController {
         log.info("getToday 요청 들어옴");
         Map<String, List<CalDTO>> todayRecords = calService.todayCalories(userEmail);
         return new ResponseEntity<>(todayRecords,HttpStatus.OK);
-    }*/
+    }
 }

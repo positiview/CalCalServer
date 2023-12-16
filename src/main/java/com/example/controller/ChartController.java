@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.repository.MemberRepository;
 import com.example.service.ChartService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -20,6 +21,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Controller
+@Log4j2
 public class ChartController {
     private final ChartService chartService;
     private final MemberRepository memberRepository;
@@ -64,6 +66,7 @@ public class ChartController {
             // index 0 = 여자 , index 1 = 남자
             resultList = chartService.getWeekAvgCalorieByGender();
         }
+        log.info("resultList >> " + resultList);
 
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }

@@ -23,197 +23,7 @@
         flex-shrink: 0;
     }
 </style>
-<script th:inline="javascript">
-    $(document).ready(function (){
-        $('#ageButton').on('click', function() {
-            sendRequest(true, function(result){
-                showChart(true,result);
-            });
 
-        });
-
-        $('#genderButton').on('click', function() {
-            sendRequest(false,function(result){
-                showChart(false,result);
-            });
-
-        });
-
-
-
-        function sendRequest(value, callback) {
-            $('#sendRequest').on('click', function () {
-
-
-                 // 혹은 false
-                $.ajax({
-                    type: 'POST',
-                    url: '/dashboardRequest',
-                    data: { booleanValue: value },
-                    success: function(response) {
-                        // 서버로부터의 성공 응답 처리
-                        console.log('Success:', response);
-
-                        // 여기에서 response를 이용하여 작업을 수행합니다.
-                        // response는 서버에서 보낸 List<Map<LocalDate,Integer>> 데이터입니다.
-
-                        // 예시: 각 Map의 데이터를 출력
-                        for (var i = 0; i < response.length; i++) {
-                            var map = response[i];
-                            for (var key in map) {
-                                console.log(key, map[key]);
-                            }
-                        }
-
-                        // 콜백 함수 호출하여 결과 전달
-                        if (typeof callback === 'function') {
-                            callback(response);
-                        }
-                    },
-                    error: function(error) {
-                        // 오류 발생시 처리
-                        console.error('Error:', error);
-                    }
-                });
-
-            });
-        }
-
-        function showChart(value,response){
-            var labels = new Set();
-            var datasetsData = {};
-
-            if(value){
-                var ageGroup;
-                for (var i = 0; i < response.length; i++) {
-
-                    switch (i) {
-                        case 0:
-                            ageGroup = '어린이';
-                            break;
-                        case 1:
-                            ageGroup = '10대';
-                            break;
-                        case 2:
-                            ageGroup = '20대';
-                            break;
-                        case 3:
-                            ageGroup = '30대';
-                            break;
-                        case 4:
-                            ageGroup = '40대';
-                            break;
-                        case 5:
-                            ageGroup = '50대 이상';
-                            break;
-                        default:
-                            ageGroup = '기타';
-                    }
-
-
-                    var map = response[i];
-                    for (var key in map) {
-                        labels.add(key);
-
-                        if(!datasetsData[ageGroup]){
-                            datasetsData[ageGroup] = [];
-                        }
-                        datasetsData[ageGroup].push(map[key]);
-
-                    }
-                    labels = Array.from(labels);
-                }
-
-                new Chart(document.getElementById("line-chart"), {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: Object.keys(datasetsData).map(function(key, index) {
-                            return {
-                                data: datasetsData[key],
-                                label: key,
-                                borderColor: getBorderColor(index),
-                                fill: false
-                            };
-                        })
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        title: {
-                            display: true,
-                            text: '하루 칼로리 소비 평균'
-                        }
-                    }
-                });
-            }else{
-                var genderGroup;
-                for (var i = 0; i < response.length; i++) {
-
-                    switch (i) {
-                        case 0:
-                            genderGroup = '여성';
-                            break;
-                        case 1:
-                            genderGroup = '남성';
-                            break;
-                        default:
-                            genderGroup = '기타';
-                    }
-
-
-                    var map = response[i];
-                    for (var key in map) {
-                        labels.add(key);
-
-                        if(!datasetsData[genderGroup]){
-                            datasetsData[genderGroup] = [];
-                        }
-                        datasetsData[genderGroup].push(map[key]);
-
-                    }
-                    labels = Array.from(labels);
-                }
-
-                new Chart(document.getElementById("line-chart"), {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            data: datasetsData['여성'],
-                            label: "여성",
-                            borderColor: "#ff5345",
-                            fill: false
-                        },{
-                            data: datasetsData['남성'],
-                            label: "남성",
-                            borderColor: "#3e95cd",
-                            fill: false
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        title: {
-                            display: true,
-                            text: '하루 칼로리 소비 평균'
-                        }
-                    }
-                });
-            }
-
-            function getBorderColor(index) {
-                // 여러 색상을 사용하여 보기 좋게 표시
-                var colors = ["#3e95cd", "#8e5ea2", "#3cba8a", "#e8c3b9", "#ff5345", "#b28c01"];
-                return colors[index % colors.length];
-            }
-
-
-        }
-
-
-    });
-</script>
 
 <div layout:fragment="content" class="m-3" style="">
     <h4 th:text="'총 회원 수: ' + ${totalMembers}+'명'"></h4>
@@ -374,6 +184,236 @@
         });
 
 
+    </script>
+    <script>
+        $(document).ready(function () {
+            // '나이별' 버튼 클릭 이벤트
+            $('#ageButton').on('click', function () {
+                console.log("ageButton clicked");
+                sendRequest(true, function (result) {
+                    showChart(true, result);
+                });
+            });
+
+            // '성별' 버튼 클릭 이벤트
+            $('#genderButton').on('click', function () {
+                console.log("genderButton clicked");
+                sendRequest(false, function (result) {
+                    showChart(false, result);
+                });
+            });
+
+            function formatDate(date) {
+                var year = date.getFullYear();
+                var month = (date.getMonth() + 1).toString().padStart(2, '0');
+                var day = date.getDate().toString().padStart(2, '0');
+                return year + '-' + month + '-' + day;
+            }
+
+            function getDates() {
+                var today = new Date();
+                var sevenDaysAgo = new Date(today);
+                sevenDaysAgo.setDate(today.getDate() - 7);
+
+                var dateArray = [];
+                var currentDate = sevenDaysAgo;
+
+                while (currentDate <= today) {
+                    dateArray.push(formatDate(currentDate));
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+
+                return dateArray;
+            }
+            function sendRequest(value, callback) {
+
+
+
+                // 혹은 false
+                $.ajax({
+                    type: 'POST',
+                    url: '/dashboardRequest',
+                    data: { booleanValue: value },
+                    success: function(response) {
+                        // 서버로부터의 성공 응답 처리
+                        console.log('Success:', response);
+
+                        // 여기에서 response를 이용하여 작업을 수행합니다.
+                        // response는 서버에서 보낸 List<Map<LocalDate,Integer>> 데이터입니다.
+
+                        // 예시: 각 Map의 데이터를 출력
+                        for (var i = 0; i < response.length; i++) {
+                            var map = response[i];
+                            for (var key in map) {
+                                console.log(key, map[key]);
+                            }
+                        }
+
+                        // 콜백 함수 호출하여 결과 전달
+                        if (typeof callback === 'function') {
+                            callback(response);
+                        }
+                    },
+                    error: function(error) {
+                        // 오류 발생시 처리
+                        console.error('Error:', error);
+                    }
+                });
+
+
+            }
+
+
+            function showChart(value,response){
+                var labels = getDates();
+                var datasetsData = [];
+
+                if(value){
+                    var ageGroup;
+                    for (var i = 0; i < response.length; i++) {
+
+                        switch (i) {
+                            case 0:
+                                ageGroup = '어린이';
+                                break;
+                            case 1:
+                                ageGroup = '10대';
+                                break;
+                            case 2:
+                                ageGroup = '20대';
+                                break;
+                            case 3:
+                                ageGroup = '30대';
+                                break;
+                            case 4:
+                                ageGroup = '40대';
+                                break;
+                            case 5:
+                                ageGroup = '50대 이상';
+                                break;
+                            default:
+                                ageGroup = '기타';
+                        }
+
+
+                        var map = response[i];
+                        var data = [];
+                        // labels 배열의 모든 값과 map의 key 이름을 비교하여 key가 없는 경우 0으로 설정
+                        for (var j = 0; j < labels.length; j++) {
+                            if (!(labels[j] in map)) {
+                                map[labels[j]] = 0;
+                            }
+                            data.push(map[labels[j]]);
+                        }
+                        console.log( i +"번째 data >> ", data);
+                        for( var key in data){
+                            if (!datasetsData[ageGroup]) {
+                                datasetsData[ageGroup] = [];
+                            }
+                            datasetsData[ageGroup].push(data[key]);
+                        }
+
+
+                    }
+                    console.log("Age-related data:", labels, datasetsData);
+
+                    new Chart(document.getElementById("line-chart"), {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: Object.keys(datasetsData).map(function(key, index) {
+                                return {
+                                    data: datasetsData[key],
+                                    label: key,
+                                    borderColor: getBorderColor(index),
+                                    fill: false
+                                };
+                            })
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            title: {
+                                display: true,
+                                text: '하루 칼로리 소비 평균'
+                            }
+                        }
+                    });
+                }else{
+
+                    var genderGroup;
+                    for (var i = 0; i < response.length; i++) {
+
+                        switch (i) {
+                            case 0:
+                                genderGroup = '여성';
+                                break;
+                            case 1:
+                                genderGroup = '남성';
+                                break;
+                            default:
+                                genderGroup = '기타';
+                        }
+
+
+                        var map = response[i];
+                        var data = [];
+                        // labels 배열의 모든 값과 map의 key 이름을 비교하여 key가 없는 경우 0으로 설정
+                        for (var j = 0; j < labels.length; j++) {
+                            if (!(labels[j] in map)) {
+                                map[labels[j]] = 0;
+                            }
+                            data.push(map[labels[j]]);
+                        }
+                        console.log( i +"번째 data >> ", data);
+                        for( var key in data){
+                            if (!datasetsData[genderGroup]) {
+                                datasetsData[genderGroup] = [];
+                            }
+                            datasetsData[genderGroup].push(data[key]);
+                        }
+
+                    }
+                    console.log("Gender-related data:", labels, datasetsData);
+
+                    new Chart(document.getElementById("line-chart"), {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: datasetsData['여성'],
+                                label: "여성",
+                                borderColor: "#ff5345",
+                                fill: false
+                            },{
+                                data: datasetsData['남성'],
+                                label: "남성",
+                                borderColor: "#3e95cd",
+                                fill: false
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            title: {
+                                display: true,
+                                text: '하루 칼로리 소비 평균'
+                            }
+                        }
+                    });
+                }
+
+                function getBorderColor(index) {
+                    // 여러 색상을 사용하여 보기 좋게 표시
+                    var colors = ["#3e95cd", "#8e5ea2", "#3cba8a", "#e8c3b9", "#ff5345", "#b28c01"];
+                    return colors[index % colors.length];
+                }
+
+
+            }
+
+
+        });
     </script>
 </div>
 </html>
